@@ -9,7 +9,7 @@ void flip(string&, int, int);
 
 int main(){
   string line;
-  ifstream file ("A-small-practice.in");
+  ifstream file ("A-large-practice.in");
   ofstream outFile ("output.txt");
 
   // PLAN
@@ -70,7 +70,6 @@ void start(ofstream& file, string tc){
             flipflop = 0;
           }
         }
-        cout << remember << " " << remember2 << endl;
         numberOfFlips++;
         break;
       }
@@ -89,6 +88,9 @@ void start(ofstream& file, string tc){
 }
 
 void flip(string& pancakes, int i, int size){
+  if((i + size) >= pancakes.length()){
+    i += (i + size - pancakes.length());
+  }
   for(int j = i; j < i + size; j++){
     if(pancakes[j] == '-'){
       pancakes[j] = '+';
