@@ -19,7 +19,7 @@ int main(){
 
   int b = 1;
   if(file.is_open()){
-    getline(file,line);
+    getline(file, line);
     while(getline(file, line)){
       outFile << "Case #" << b << ": ";
       start(outFile, line);
