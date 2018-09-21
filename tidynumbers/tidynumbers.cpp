@@ -36,19 +36,23 @@ int main(){
 void start(ofstream& file, string line){
   // PARSE number
   long long num = 0;
-  int b = 0;
-  for(int j = line.length()-1; j >= 0; j--){
+  long long b = 1;
+  for(int i = 1; i < line.length() - 1; i++){
+    b = b * 10;
+  }
+  for(int j = 0; j < line.length() - 1; j++){
     int x = line[j] - '0';
-    num += x*pow(10, b);
-    b++;
+    num += x * b;
+    b = b / 10;
   }
 
   cout << num << endl;
+  // Number successfully parsed!
 
-  int answer = -1;
-  for(int i = num; i > 0; i--){
-    int remember = 9;
-    int m = 10;
+  long long answer = -1;
+  for(long long i = num; i > 0; i--){
+    long long remember = 9;
+    long long m = 10;
     while(true){
       if(m - i > 0){
         answer = i;
