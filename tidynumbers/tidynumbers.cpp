@@ -49,25 +49,22 @@ void start(ofstream& file, string line){
   cout << num << endl;
   // Number successfully parsed!
 
+
+  long long c = 1;
+  for(int i = 1; i < line.length() - 1; i++){
+    c = c * 10;
+  }
   long long answer = -1;
   for(long long i = num; i > 0; i--){
-    long long remember = 9;
-    long long m = 10;
-    while(true){
-      if(m - i > 0){
-        answer = i;
-        break;
-      }
-      if(i % m >= remember){
-        remember = i % m;
-      }else{
-        break;
-      }
-      m = m * 10;
-    }
-    if(answer != -1){
-      file << answer << endl;
+    string tempi = to_string(i);
+    if(tempi.length() == 1){
+      file << tempi;
       break;
+    }
+    for(int j = 1; j < tempi.length() - 1; j++){
+      int current = tempi[j] - '0';
+      int previous = tempi[j-1] - '0';
+
     }
   }
 }
