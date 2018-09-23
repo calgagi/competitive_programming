@@ -14,7 +14,9 @@ int main(){
   };
 
   for(int i = 0; i < ROW_SIZE; i++){
-    
+    for(int j = 0; j < 4; j++){
+      int temp = array[i][j];
+    }
   }
 
   return 0;
