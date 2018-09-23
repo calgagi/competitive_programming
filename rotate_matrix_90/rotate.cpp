@@ -14,10 +14,11 @@ int main(){
   };
 
   for(int i = 0; i < ROW_SIZE; i++){
-    for(int j = 0; j < 4; j++){
-      int temp = array[i][j];
+    for(int j = 0; j < COL_SIZE; j++){
+      int temp = array[ROW_SIZE - i][j];
+      array[ROW_SIZE - i][j] = array[i][j];
+      array[ROW_SIZE - j][ROW_SIZE - i] =
     }
   }
-
   return 0;
 }
