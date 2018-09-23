@@ -6,7 +6,6 @@ tcs = line.split('\n');
 
 for x in tcs:
     # Get numbers
-    sp = x.split(' ');
+    sp = x.split(" ");
     stalls = int(sp[0]);
-    people = int(sp[1]);
-    
+    print(stalls);
