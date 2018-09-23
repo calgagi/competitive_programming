@@ -15,10 +15,29 @@ int main(){
 
   for(int i = 0; i < ROW_SIZE; i++){
     for(int j = 0; j < COL_SIZE; j++){
-      int temp = array[ROW_SIZE - i][j];
-      array[ROW_SIZE - i][j] = array[i][j];
-      array[ROW_SIZE - j][ROW_SIZE - i] =
+      cout << array[i][j] << " ";
     }
+    cout << endl;
+  }
+
+  for(int i = 0; i < ROW_SIZE - 1; i++){
+    for(int j = 0; j < COL_SIZE - 1; j++){
+      int temp0 = array[i][j];
+      int temp1 = array[ROW_SIZE - 1 - i][j];
+      int temp2 = array[ROW_SIZE - 1 - i][COL_SIZE - 1 - j];
+      int temp3 = array[i][COL_SIZE - 1 - j];
+      array[ROW_SIZE - 1 - i][j] = temp0;
+      array[ROW_SIZE - 1 - j][COL_SIZE - 1 - i] = temp1;
+      array[i][COL_SIZE - 1 - j] = temp2;
+      array[i][j] = temp3;
+    }
+  }
+
+  for(int i = 0; i < ROW_SIZE; i++){
+    for(int j = 0; j < COL_SIZE; j++){
+      cout << array[i][j] << " ";
+    }
+    cout << endl;
   }
   return 0;
 }
