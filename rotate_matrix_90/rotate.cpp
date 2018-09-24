@@ -1,4 +1,5 @@
 #include<iostream>
+#include<iomanip>
 
 using namespace std;
 
@@ -15,27 +16,30 @@ int main(){
 
   for(int i = 0; i < ROW_SIZE; i++){
     for(int j = 0; j < COL_SIZE; j++){
-      cout << array[i][j] << " ";
+      cout << setw(3) << array[i][j] << " ";
     }
     cout << endl;
   }
 
-  for(int i = 0; i < ROW_SIZE - 1; i++){
-    for(int j = 0; j < COL_SIZE - 1; j++){
-      int temp0 = array[i][j];
-      int temp1 = array[ROW_SIZE - 1 - i][j];
-      int temp2 = array[ROW_SIZE - 1 - i][COL_SIZE - 1 - j];
-      int temp3 = array[i][COL_SIZE - 1 - j];
-      array[ROW_SIZE - 1 - i][j] = temp0;
-      array[ROW_SIZE - 1 - j][COL_SIZE - 1 - i] = temp1;
-      array[i][COL_SIZE - 1 - j] = temp2;
-      array[i][j] = temp3;
+  int r = ROW_SIZE - 1;
+  int c = COL_SIZE - 1;
+  for(int i = 0; i < 1; i++){
+    for(int j = 0; j < c; j++){
+      int temp_TL = array[i][j];
+      int temp_TR = array[i+j][c];
+      int temp_BR = array[r][c-j];
+      int temp_BL = array[r-j][j];
+
+      array[i+j][c] = temp_TL;
+      array[r][c-j] = temp_TR;
+      array[r-j][j] = temp_BR;
+      array[i][j] = temp_BL;
     }
   }
-
+  cout << "=============================" << endl;
   for(int i = 0; i < ROW_SIZE; i++){
     for(int j = 0; j < COL_SIZE; j++){
-      cout << array[i][j] << " ";
+      cout << setw(3) << array[i][j] << " ";
     }
     cout << endl;
   }
