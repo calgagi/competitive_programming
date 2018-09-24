@@ -5,40 +5,44 @@ using namespace std;
 
 int main(){
 
-  int ROW_SIZE = 4;
-  int COL_SIZE = 4;
-  int array[ROW_SIZE][COL_SIZE] = {
-    {0, 1, 2, 3},
-    {4, 5, 6, 7},
-    {8, 9, 10, 11},
-    {12, 13, 14, 15}
+  int ROW = 3;
+  int COL = 3;
+  int array[COL][ROW] = {
+    {0, 1, 2},
+    {3, 4, 5},
+    {6, 7, 8}
   };
 
-  for(int i = 0; i < ROW_SIZE; i++){
-    for(int j = 0; j < COL_SIZE; j++){
+  for(int i = 0; i < ROW; i++){
+    for(int j = 0; j < COL; j++){
       cout << setw(3) << array[i][j] << " ";
     }
     cout << endl;
   }
+  cout << "Val " << array[0][1] << endl;
+  for(int y = 0; y < COL / 2; y++){
+    cout << endl;
+    for(int x = y; x < ROW - 1 - y; y++){
+      cout << array[x][y] << " " << array[][COL/2-x] << endl;
+      int *Top = &array[x][y];
+      /*int *Right = &array[(COL/2)-y][x];
+      int *Bottom = &array[(COL/2)-y][ROW-1-y];
+      int *Left = &array[x][ROW-1-y];
 
-  int r = ROW_SIZE - 1;
-  int c = COL_SIZE - 1;
-  for(int i = 0; i < ROW_SIZE / 2; i++){
-    for(int j = (2*i); j < c - (2*i); j++){
-      int temp_TL = array[i][j];
-      int temp_TR = array[i+j][c];
-      int temp_BR = array[r][c-j];
-      int temp_BL = array[r-j][j];
+      int temp_T = *Top;
+      int temp_R = *Right;
+      int temp_B = *Bottom;
+      int temp_L = *Left;
 
-      array[i+j][c] = temp_TL;
-      array[r][c-j] = temp_TR;
-      array[r-j][j] = temp_BR;
-      array[i][j] = temp_BL;
+      *Right = temp_T;
+      *Bottom = temp_R;
+      *Left = temp_B;
+      *Top = temp_L;*/
     }
   }
   cout << "=============================" << endl;
-  for(int i = 0; i < ROW_SIZE; i++){
-    for(int j = 0; j < COL_SIZE; j++){
+  for(int i = 0; i < ROW; i++){
+    for(int j = 0; j < COL; j++){
       cout << setw(3) << array[i][j] << " ";
     }
     cout << endl;
