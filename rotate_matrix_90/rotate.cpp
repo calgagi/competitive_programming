@@ -5,12 +5,14 @@ using namespace std;
 
 int main(){
 
-  int ROW = 3;
-  int COL = 3;
+  int ROW = 5;
+  int COL = 5;
   int array[COL][ROW] = {
-    {0, 1, 2},
-    {3, 4, 5},
-    {6, 7, 8}
+    {0, 1, 2, 3, 4},
+    {5, 6, 7, 8, 9},
+    {10, 11, 12, 13, 14},
+    {15, 16, 17, 18, 19},
+    {20, 21, 22, 23, 24}
   };
 
   for(int i = 0; i < ROW; i++){
@@ -19,15 +21,12 @@ int main(){
     }
     cout << endl;
   }
-  cout << "Val " << array[0][1] << endl;
-  for(int y = 0; y < COL / 2; y++){
-    cout << endl;
-    for(int x = y; x < ROW - 1 - y; y++){
-      cout << array[x][y] << " " << array[][COL/2-x] << endl;
+  for(int y = 0; y < ROW / 2; y++){
+    for(int x = y; x < COL - 1 - y; x++){
       int *Top = &array[x][y];
-      /*int *Right = &array[(COL/2)-y][x];
-      int *Bottom = &array[(COL/2)-y][ROW-1-y];
-      int *Left = &array[x][ROW-1-y];
+      int *Right = &array[y][ROW - x - 1];
+      int *Bottom = &array[ROW - x - 1][COL - y - 1];
+      int *Left = &array[COL - y - 1][x];
 
       int temp_T = *Top;
       int temp_R = *Right;
@@ -37,7 +36,7 @@ int main(){
       *Right = temp_T;
       *Bottom = temp_R;
       *Left = temp_B;
-      *Top = temp_L;*/
+      *Top = temp_L;
     }
   }
   cout << "=============================" << endl;
