@@ -10,8 +10,8 @@ int main(){
   int array[ROW_SIZE][COL_SIZE] = {
     {0, 1, 2, 3},
     {4, 5, 6, 7},
-    {7, 8, 9, 10},
-    {11, 12, 13, 14}
+    {8, 9, 10, 11},
+    {12, 13, 14, 15}
   };
 
   for(int i = 0; i < ROW_SIZE; i++){
@@ -23,8 +23,8 @@ int main(){
 
   int r = ROW_SIZE - 1;
   int c = COL_SIZE - 1;
-  for(int i = 0; i < 1; i++){
-    for(int j = 0; j < c; j++){
+  for(int i = 0; i < ROW_SIZE / 2; i++){
+    for(int j = (2*i); j < c - (2*i); j++){
       int temp_TL = array[i][j];
       int temp_TR = array[i+j][c];
       int temp_BR = array[r][c-j];
