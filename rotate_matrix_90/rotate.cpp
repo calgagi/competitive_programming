@@ -37,11 +37,18 @@ int main(){
   for(int y = 0; y < ROW / 2; y++){
     for(int x = y; x < COL - 1 - y; x++){
       // Get top element. Top element starts at
-      // [0][0] and goes across to the right.
+      // [0][0] and goes across to the right
+      // (so along ROW).
       int *Top = &array[x][y];
-      // Get right element.
+      // Get right element. Right element starts at
+      // [0][ROW] and goes down (so along COL).
       int *Right = &array[y][ROW - x - 1];
+      // Get bottom element. Bottom element starts
+      // at [COL][ROW] and goes across to the left
+      // (so along ROW).
       int *Bottom = &array[ROW - x - 1][COL - y - 1];
+      // Get left element. Left element starts at
+      // [COL][0] and goes up (so along COL).
       int *Left = &array[COL - y - 1][x];
 
       // Swap elements.
