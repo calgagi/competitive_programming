@@ -8,11 +8,14 @@ void start(ifstream&, ofstream&);
 
 int main(){
   string line;
-  ifstream inFile ("A-large.in");
+  ifstream inFile ("B-small-attempt2.in");
   ofstream outFile ("output.txt");
   int num_testcases;
   // PLAN
-  string trash;
+  // Sort teams by energy level
+  // Fight smaller energy level teams until out of energy
+  // Recruit highest energy level team
+  // Repeat
 
   int b = 1;
   if(inFile.is_open()){
@@ -21,9 +24,6 @@ int main(){
     for(int i = 0; i < num_testcases; i++){
       outFile << "Case #" << b << ": ";
       start(inFile, outFile);
-      // get endline
-      getline(inFile, trash);
-      outFile << endl;
       b++;
     }
   }
@@ -33,36 +33,48 @@ int main(){
 }
 
 void start(ifstream& inFile, ofstream& outFile){
-  // Get number of gbusses
-  int num_gbusses, num_cities;
-  inFile >> num_gbusses;
-  int* a = new int[num_gbusses];
-  int* b = new int[num_gbusses];
-  // Get range of cities each bus serves
-  for(int i = 0; i < num_gbusses; i++){
-    inFile >> a[i];
-    inFile >> b[i];
+  int energy, num_teams, honor = 0;
+  // Get energy + num_teams
+  inFile >> energy;
+  cout << "Energy: " << energy << endl;
+  inFile >> num_teams;
+  // Store teams in order
+  int *rivals = new int[num_teams];
+  for(int i = 0; i < num_teams; i++){
+    inFile >> rivals[i];
   }
-  // Get number of cities we are interested in
-  inFile >> num_cities;
-  // Get each city number
-  int *c = new int[num_cities];
-  for(int i = 0; i < num_cities; i++){
-    inFile >> c[i];
-  }
-  // Find number of buses that serve each city
-  cout << "Number of cities " << num_cities << endl;
-  cout << "Number of buses " << num_gbusses << endl;
-  for(int i = 0; i < num_cities; i++){
-    int sum = 0;
-    for(int j = 0; j < num_gbusses; j++){
-      if(a[j] <= c[i] && b[j] >= c[i]){
-        sum = sum + 1;
+  // Sort rivals (can be done via delay)
+  for(int i = 0; i < num_teams-1; i++){
+    for(int j = 0; j < num_teams-i-1; j++){
+      if(rivals[j] > rivals[j+1]){
+        int temp = rivals[j];
+        rivals[j] = rivals[j+1];
+        rivals[j+1] = temp;
       }
     }
-    outFile << sum << " ";
   }
-  delete [] a;
-  delete [] b;
-  delete [] c;
+  // check
+  cout << "Rival energy levels: ";
+  for(int i = 0; i < num_teams; i++){
+    cout << rivals[i] << " ";
+  }
+  cout << endl;
+  // Fight!
+  for(int i = 0; i < num_teams; i++){
+    // If the rival team has more energy than you
+    // don't battle. Instead, recruit last team
+    if(rivals[i] < energy){
+      energy -= rivals[i];
+      honor += 1;
+    }else if(honor > 0 && i - num_teams != 1){
+      energy += rivals[num_teams-1];
+      honor -= 1;
+      num_teams -= 1;
+      --i;
+    }
+    cout << "Honor: " << honor << endl;
+    // if honor is zero, truce and don't do anything
+  }
+  outFile << honor << endl;
+  delete [] rivals;
 }
