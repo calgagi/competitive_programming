@@ -8,7 +8,7 @@ void start(ifstream&, ofstream&);
 
 int main(){
   string line;
-  ifstream inFile ("B-small-attempt2.in");
+  ifstream inFile ("B-large.in");
   ofstream outFile ("output.txt");
   int num_testcases;
   // PLAN
@@ -63,16 +63,18 @@ void start(ifstream& inFile, ofstream& outFile){
   for(int i = 0; i < num_teams; i++){
     // If the rival team has more energy than you
     // don't battle. Instead, recruit last team
+    // If rival team has less energy, battle!
     if(rivals[i] < energy){
       energy -= rivals[i];
       honor += 1;
-    }else if(honor > 0 && i - num_teams != 1){
+    }else if(honor > 0 && i != num_teams-1){
       energy += rivals[num_teams-1];
       honor -= 1;
       num_teams -= 1;
-      --i;
+      i -= 1;
+    }else{
+      break;
     }
-    cout << "Honor: " << honor << endl;
     // if honor is zero, truce and don't do anything
   }
   outFile << honor << endl;
