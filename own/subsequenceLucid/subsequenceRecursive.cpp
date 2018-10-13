@@ -2,7 +2,6 @@
 #include <limits>
 #include <vector>
 #include <iostream>
-#include <cmath> // For absolute value
 
 using namespace std;
 
@@ -12,7 +11,7 @@ using namespace std;
  * Return the length as an integer.
  */
 
-int exploreNeighbors(vector< vector<int> > grid, int x, int y, vector<int>& currentPath){
+int exploreNeighbors(vector< vector<int> >& grid, int x, int y, vector<int>& currentPath){
     // 2. Inside recursive function,
     //     a. find all neighbors with diff > 3
     //     b. Check to see if we've been through those neighbors already
@@ -22,35 +21,18 @@ int exploreNeighbors(vector< vector<int> > grid, int x, int y, vector<int>& curr
     //     f. If yes, return int
 
     int longestSS = 0;
+    // Add it to currentPath
+    currentPath.push_back(x);
+    currentPath.push_back(y);
     // loop through each neighbor
+    cout << "==== " << x << " " << y << " (" << grid[x][y] << ") ====" << endl;
     for(int k = x-1; k < x+2; k++){
         for(int l = y-1; l < y+2; l++){
             // If within bounds of grid
-            if(k >= 0 && l >= 0 && k < grid.size() && l < grid[0].size()){
+            if(k >= 0 && l >= 0 && k < grid.size() && l < grid[0].size() && !(y == l && x == k)){
                 // If diff is > 3
-                if(abs(grid[x][y] - grid[k][l]) > 3){
-                    // Check to see if it's in the currentPath
-                    bool inCurrentPath = false;
-                    for(int m = 0; m < currentPath.size() / 2; m++){
-                        if(k == m*2 && l == (m*2)+1){
-                            inCurrentPath = true;
-                            break;
-                        }
-                    }
-                    // If not in currentPath
-                    if(inCurrentPath == false){
-                        // Add it to currentPath
-                        currentPath.push_back(x);
-                        currentPath.push_back(y);
-                        // Explore neighbors of it!
-                        int x = exploreNeighbors(grid, k, l, currentPath);
-                        // If the path it found is longer than
-                        if(x > longestSS){
-                            longestSS = x;
-                        }
-                        currentPath.pop_back();
-                        currentPath.pop_back();
-                    }
+                if(grid[x][y] - grid[k][l] > 3 || grid[k][l] - grid[x][y] > 3){
+                    cout << k << " " << l << endl;
                 }
             }
         }
@@ -77,8 +59,9 @@ int longest_subsequence(vector< vector<int> > grid) {
     int longestSS = 0;
     for(int i = 0; i < grid.size(); i++){
         for(int j = 0; j < grid[i].size(); j++){
-            cout << i << " " << j << endl;
             vector<int> g;
+            g.push_back(i);
+            g.push_back(j);
             int temp = exploreNeighbors(grid, i, j, g);
             if(temp > longestSS){
                 longestSS = temp;
