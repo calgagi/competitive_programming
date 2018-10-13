@@ -2,7 +2,6 @@
 #include <limits>
 #include <vector>
 #include <iostream>
-#include <cmath> // For absolute value
 
 using namespace std;
 
@@ -12,74 +11,82 @@ using namespace std;
  * Return the length as an integer.
  */
 
-void getConnectionsList(vector< vector<int> > grid, vector< vector<int> > &connectionList){
-    // ============== PLAN =============
-    // 1. Loop through each element in grid
-    // 2. If the element has a neighbor that's diff > 3
-    //    and the connection is not already in connectionList,
-    // 3. Add to connectionList
+int exploreNeighbors(vector< vector<int> > grid, int x, int y, vector<int>& currentPath){
+    // 2. Inside recursive function,
+    //     a. find all neighbors with diff > 3
+    //     b. Check to see if we've been through those neighbors already
+    //     c. If not, add node to currentPath
+    //     d. Loop through each node and <return> call recursive function with that node
+    //     e. Keep track of the largest int returned
+    //     f. If yes, return int
 
-    // Loop through each element in grid (1)
-    for(int i = 0; i < grid.size(); i++){
-        for(int j = 0; j < grid[i].size(); j++){
-            // Look for neighbors that diffs > 3 (2)
-            // Neighbors are defined as other items within the 3x3 square around the element
-            for(int k = i-1; k < i+2; k++){
-                for(int l = j-1; l < j+2; j++){
-                    // If within bounds of grid
-                    if(k >= 0 && l >= 0 && k < grid.size() && l < grid[i].size()){
-                        // If diff is > 3
-                        if(abs(grid[i][j] - grid[k][l]) > 3){
-                            // Create new vector and add both element coordinates to it
-                            vector<int> temp;
-                            temp.push_back(i); temp.push_back(j);
-                            tmep.push_back(k); temp.push_back(l);
-                            // Push to connectionList
-                            connectionList.push(temp);
+    int longestSS = 0;
+    // loop through each neighbor
+    for(int k = x-1; k < x+2; k++){
+        for(int l = y-1; l < y+2; l++){
+            // If within bounds of grid
+            cout << grid.size() << " " << grid[0].size();
+            if(k >= 0 && l >= 0 && k < grid.size() && l < grid[0].size()){
+                // If diff is > 3
+                if(grid[x][y] - grid[k][l] > 3 || grid[k][l] - grid[x][y] > 3){
+                    // Check to see if it's in the currentPath
+                    bool inCurrentPath = false;
+                    for(int m = 0; m < (currentPath.size() / 2); m++){
+                        if(k == m*2 && l == (m*2)+1){
+                            inCurrentPath = true;
+                            break;
                         }
+                    }
+                    // If not in currentPath
+                    if(inCurrentPath == false){
+                        // Add it to currentPath
+                        currentPath.push_back(x);
+                        currentPath.push_back(y);
+                        // Explore neighbors of it!
+                        int x = exploreNeighbors(grid, k, l, currentPath);
+                        // If the path it found is longer than
+                        if(x > longestSS){
+                            longestSS = x;
+                        }
+                        currentPath.pop_back();
+                        currentPath.pop_back();
                     }
                 }
             }
         }
     }
-}
-
-int getLongestSS(vector< vector<int> > connectionList){
-    // ============== PLAN =============
-    // 1. Loop through each connnection
-    // 2. While finding connections to current connection that isn't going back to a previous connection
-    //      Push node to
-    // 3. If size is greater than currentLongest, set size to currentLongest
-    vector< vector<int> > currentSubSequence;
-    for(int i = 0; i < connectionList.size(); i++){
-        while()
-    }
+    return longestSS + 1;
 }
 
 int longest_subsequence(vector< vector<int> > grid) {
     // TODO: Complete this function
     // Name: Calvin Gagliano
-    // ============== PLAN ================
-    // 1. Parse strings to create 2D vector
-    // 2. Find connections (ints with neighbors w/ diff > 3)
-    // 3. Make largest subsequence from connections list
-    // 4. Return largest subsequence size
 
-    // ============== #1 ==================
-    // Already done via main function
+    // ============= NEW PLAN ==============
+    // 1. For each node, recursively call all neighbors that have diff > 3
+    // 2. Inside recursive function,
+    //     a. find all neighbors with diff > 3
+    //     b. Check to see if we've been through those neighbors already
+    //     c. If not, add node to currentPath
+    //     d. Loop through each node and <return> call recursive function with that node
+    //     e. Keep track of the largest int returned
+    //     f. If yes, return int
 
-    // ============== #2 ==================
-    // Find connections and put them in connectionList
-    vector< vector<int> > connectionList;
-    getConnectionsList(grid, connectionList);
-
-    // ============= #3 ===================
-    // Find longest subsequence from connections
-    int longestSS = getLongestSS(connectionList);
-
-    // ============= #4 ===================
-    // Return longestSS
-    return longestSS;
+    // 1
+    // Loop through each node and call recursive func
+    int longestSS = 0;
+    for(int i = 0; i < grid.size(); i++){
+        for(int j = 0; j < grid[i].size(); j++){
+            vector<int> g;
+            g.push_back(i);
+            g.push_back(j);
+            int temp = exploreNeighbors(grid, i, j, g);
+            if(temp > longestSS){
+                longestSS = temp;
+            }
+        }
+    }
+    return longestSS + 1;
 }
 
 int main() {

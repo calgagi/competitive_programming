@@ -12,24 +12,50 @@ using namespace std;
  * Return the length as an integer.
  */
 
-int exploreNeighbors(vector< vector<int> > grid, vector< vector<int> > currentPath){
-    // ============== PLAN =============
-    // 1. Loop through each connnection
-    // 2. While finding connections to current connection that isn't going back to a previous connection
-    //      Push node to
-    // 3. If size is greater than currentLongest, set size to currentLongest
+int exploreNeighbors(vector< vector<int> > grid, int x, int y, vector<int>& currentPath){
+    // 2. Inside recursive function,
+    //     a. find all neighbors with diff > 3
+    //     b. Check to see if we've been through those neighbors already
+    //     c. If not, add node to currentPath
+    //     d. Loop through each node and <return> call recursive function with that node
+    //     e. Keep track of the largest int returned
+    //     f. If yes, return int
 
-    // loop through each connection
-    for(int i = 0; i < connectionList.size(); i++){
-        // Create empty vector
-        vector< vector<int> > currentSubSequence;
-        while(true){
-            // Search fo r
-            for(int j = 0; j < connectionList.size; j++){
-
+    int longestSS = 0;
+    // loop through each neighbor
+    for(int k = x-1; k < x+2; k++){
+        for(int l = y-1; l < y+2; l++){
+            // If within bounds of grid
+            if(k >= 0 && l >= 0 && k < grid.size() && l < grid[0].size()){
+                // If diff is > 3
+                if(abs(grid[x][y] - grid[k][l]) > 3){
+                    // Check to see if it's in the currentPath
+                    bool inCurrentPath = false;
+                    for(int m = 0; m < currentPath.size() / 2; m++){
+                        if(k == m*2 && l == (m*2)+1){
+                            inCurrentPath = true;
+                            break;
+                        }
+                    }
+                    // If not in currentPath
+                    if(inCurrentPath == false){
+                        // Add it to currentPath
+                        currentPath.push_back(x);
+                        currentPath.push_back(y);
+                        // Explore neighbors of it!
+                        int x = exploreNeighbors(grid, k, l, currentPath);
+                        // If the path it found is longer than
+                        if(x > longestSS){
+                            longestSS = x;
+                        }
+                        currentPath.pop_back();
+                        currentPath.pop_back();
+                    }
+                }
             }
         }
     }
+    return longestSS + 1;
 }
 
 int longest_subsequence(vector< vector<int> > grid) {
@@ -51,13 +77,15 @@ int longest_subsequence(vector< vector<int> > grid) {
     int longestSS = 0;
     for(int i = 0; i < grid.size(); i++){
         for(int j = 0; j < grid[i].size(); j++){
-            int temp = exploreNeighbors(grid, i, j);
+            cout << i << " " << j << endl;
+            vector<int> g;
+            int temp = exploreNeighbors(grid, i, j, g);
             if(temp > longestSS){
                 longestSS = temp;
             }
         }
     }
-    return longestSS;
+    return longestSS + 1;
 }
 
 int main() {
