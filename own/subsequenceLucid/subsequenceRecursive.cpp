@@ -11,64 +11,80 @@ using namespace std;
  * Return the length as an integer.
  */
 
-int exploreNeighbors(vector< vector<int> >& grid, int x, int y, vector<int>& currentPath){
-    // 2. Inside recursive function,
-    //     a. find all neighbors with diff > 3
-    //     b. Check to see if we've been through those neighbors already
-    //     c. If not, add node to currentPath
-    //     d. Loop through each node and <return> call recursive function with that node
-    //     e. Keep track of the largest int returned
-    //     f. If yes, return int
-
-    int longestSS = 0;
-    // Add it to currentPath
-    currentPath.push_back(x);
-    currentPath.push_back(y);
+void createConnectionList(vector< vector<int> >& grid, int x, int y, vector< vector<int> >& connectionList){
     // loop through each neighbor
-    cout << "==== " << x << " " << y << " (" << grid[x][y] << ") ====" << endl;
     for(int k = x-1; k < x+2; k++){
-        for(int l = y-1; l < y+2; l++){
-            // If within bounds of grid
-            if(k >= 0 && l >= 0 && k < grid.size() && l < grid[0].size() && !(y == l && x == k)){
-                // If diff is > 3
-                if(grid[x][y] - grid[k][l] > 3 || grid[k][l] - grid[x][y] > 3){
-                    cout << k << " " << l << endl;
-                }
-            }
-        }
+      for(int l = y-1; l < y+2; l++){
+          // If within bounds of grid
+          if(k >= 0 && l >= 0 && k < grid.size() && l < grid[0].size() && !(y == l && x == k)){
+              // If diff is > 3
+              if(grid[x][y] - grid[k][l] > 3 || grid[k][l] - grid[x][y] > 3){
+                  vector<int> temp;
+                  temp.push_back(k);
+                  temp.push_back(l);
+                  connectionList.push_back(temp);
+              }
+          }
+      }
     }
-    return longestSS + 1;
+}
+
+int getLongestSubsequence(vector< vector< vector< vector<int> > > >& connectionsLists, vector< vector<int> >& path){
+  int lastNodeX = path.back()[0];
+  int lastNodeY = path.back()[1];
+  int numConnections = connectionsLists[lastNodeX][lastNodeY].size();
+  // Return condition: If there are no connections, return 1
+  if(numConnections == 0){
+    return 1;
+  }else{
+    // If there are connections, go to each one!
+    for(int i = 0; i < numConnections; i++){
+      if()
+    }
+  }
 }
 
 int longest_subsequence(vector< vector<int> > grid) {
     // TODO: Complete this function
     // Name: Calvin Gagliano
 
-    // ============= NEW PLAN ==============
-    // 1. For each node, recursively call all neighbors that have diff > 3
-    // 2. Inside recursive function,
-    //     a. find all neighbors with diff > 3
-    //     b. Check to see if we've been through those neighbors already
-    //     c. If not, add node to currentPath
-    //     d. Loop through each node and <return> call recursive function with that node
-    //     e. Keep track of the largest int returned
-    //     f. If yes, return int
+    // ============= PLAN ==============
+    // 1. For each node, create connections list for that node
 
     // 1
-    // Loop through each node and call recursive func
+    // Loop through each node and find connections
+    // Create a vector of vectors of vectors of ints
+    // For each element in grid, create a vector that holds vectors of coordinates for each neighbor connection
+    vector< vector< vector< vector<int> > > > connectionsLists;
+    for(int i = 0; i < grid.size(); i++){
+      vector< vector< vector<int> > > row;
+      for(int j = 0; j < grid[i].size(); j++){
+          vector< vector<int> > x;
+          createConnectionList(grid, i, j, x);
+          row.push_back(x);
+      }
+      connectionsLists.push_back(row);
+    }
+
+    // 2
+    // Recursive function to find longest path
+    // Pass in ConnectionsLists and currentPath
     int longestSS = 0;
     for(int i = 0; i < grid.size(); i++){
-        for(int j = 0; j < grid[i].size(); j++){
-            vector<int> g;
-            g.push_back(i);
-            g.push_back(j);
-            int temp = exploreNeighbors(grid, i, j, g);
-            if(temp > longestSS){
-                longestSS = temp;
-            }
+      for(int j = 0; j < grid[i].size(); j++){
+        // Create path and add start node to it
+        vector< vector<int> > path;
+        vector<int> temp;
+        temp.push_back(i);
+        temp.push_back(j);
+        path.push_back(temp);
+        int longestFromNode = getLongestSubsequence(connectionsLists, path);
+        if(longestFromNode > longestSS){
+          longestSS = longestFromNode;
         }
+      }
     }
-    return longestSS + 1;
+    return longestSS;
 }
 
 int main() {
