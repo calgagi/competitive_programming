@@ -30,6 +30,7 @@ void createConnectionList(vector< vector<int> >& grid, int x, int y, vector< vec
 }
 
 int getLongestSubsequence(vector< vector< vector< vector<int> > > >& connectionsLists, vector< vector<int> >& path){
+  int longestSubSS = 0;
   int lastNodeX = path.back()[0];
   int lastNodeY = path.back()[1];
   int numConnections = connectionsLists[lastNodeX][lastNodeY].size();
@@ -39,9 +40,31 @@ int getLongestSubsequence(vector< vector< vector< vector<int> > > >& connections
   }else{
     // If there are connections, go to each one!
     for(int i = 0; i < numConnections; i++){
-      if()
+      // Figure out if we've been there already
+      bool alreadyThere = false;
+      for(int j = 0; j < path.size(); j++){
+        if(path[j][0] == connectionsLists[lastNodeX][lastNodeY][i][0] && path[j][1] == connectionsLists[lastNodeX][lastNodeY][i][1]){
+          alreadyThere = true;
+        }
+      }
+      // If haven't been there, explore that path!
+      if(!alreadyThere){
+        vector<int> coordsOfNextNode;
+        // Add coordinates of node about to explore to path
+        coordsOfNextNode.push_back(connectionsLists[lastNodeX][lastNodeY][i][0]);
+        coordsOfNextNode.push_back(connectionsLists[lastNodeX][lastNodeY][i][1]);
+        path.push_back(coordsOfNextNode);
+        // Get longest subsequence from that node
+        int x = getLongestSubsequence(connectionsLists, path);
+        if(longestSubSS < x){
+          longestSubSS = x;
+        }
+        // Pop the last node we added so that we can explore another connection
+        path.pop_back();
+      }
     }
   }
+  return longestSubSS + 1;
 }
 
 int longest_subsequence(vector< vector<int> > grid) {
@@ -50,6 +73,8 @@ int longest_subsequence(vector< vector<int> > grid) {
 
     // ============= PLAN ==============
     // 1. For each node, create connections list for that node
+    // 2. Find the longest subsequence using a recursive function.
+    //    ** Have to keep track of nodes we've already visited.
 
     // 1
     // Loop through each node and find connections
@@ -78,6 +103,7 @@ int longest_subsequence(vector< vector<int> > grid) {
         temp.push_back(i);
         temp.push_back(j);
         path.push_back(temp);
+        // Keep track of longest subsequence
         int longestFromNode = getLongestSubsequence(connectionsLists, path);
         if(longestFromNode > longestSS){
           longestSS = longestFromNode;
