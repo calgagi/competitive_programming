@@ -14,16 +14,27 @@ class Solution(object):
         carry = 0
         outputHead = ListNode(0)
         outputNodeCurr = outputHead
-        while l1.next != None or l2.next != None:
-            temp = l1.next.val + l2.next.val + carry
-            outputNodeCurr.next = ListNode()
-            outputNodeCurr = outputNodeCurr.next
+        while True:
+            temp = carry
+            if l1 != None:
+                temp += l1.val
+            if l2 != None:
+                temp += l2.val
+            outputNodeCurr.val = (temp%10)
             if temp >= 10:
                 carry = 1
             else:
                 carry = 0
-            l1 = l1.next
-            l2 = l2.next
+            if l1.next == None and l2.next == None:
+                break
+            else:
+                outputNodeCurr.next = ListNode(0)
+                outputNodeCurr = outputNodeCurr.next
+                if l1 != None:
+                    l1 = l1.next
+                if l2 != None:
+                    l2 = l2.next
+
         return outputHead
 
 
