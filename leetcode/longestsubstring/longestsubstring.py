@@ -4,19 +4,26 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        substrings=[];
+        # Array of substrings
+        substrings=[]
+        # Return int
         longestSS = 0
+        # For all characters in s
         for i in range(len(s)):
+            # For all substrings
+            print(len(substrings))
             for x in range(len(substrings)):
-                # check if character is in substring
-                if s[i] not in substrings[x]:
+                # Check if character is in substring
+                if s[i] not in substrings[x] and substrings[x][len(substrings[x])-1] != '\0':
                     substrings[x] += s[i]
-                else:
-                    substrings.pop(x)
-            substrings.append(s[i]);
+                elif substrings[x][len(substrings[x])-1] != '\0':
+                    substrings[x] += '\0'
+            substrings.append(s[i])
 
         for i in range(len(substrings)):
+            if substrings[i][len(substrings[i])-1] != '\0':
+                substrings[i] += '\0'
             if longestSS < len(substrings[i]):
                 longestSS = len(substrings[i])
                 print(substrings[i])
-        return longestSS
+        return longestSS - 1
