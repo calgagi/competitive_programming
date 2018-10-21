@@ -11,7 +11,6 @@ class Solution(object):
         # For all characters in s
         for i in range(len(s)):
             # For all substrings
-            print(len(substrings))
             for x in range(len(substrings)):
                 # Check if character is in substring
                 if s[i] not in substrings[x] and substrings[x][len(substrings[x])-1] != '\0':
@@ -24,6 +23,5 @@ class Solution(object):
             if substrings[i][len(substrings[i])-1] != '\0':
                 substrings[i] += '\0'
             if longestSS < len(substrings[i]):
-                longestSS = len(substrings[i])
-                print(substrings[i])
-        return longestSS - 1
+                longestSS = len(substrings[i].replace('\0', ""))
+        return longestSS
