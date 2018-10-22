@@ -10,22 +10,14 @@ class Solution(object):
         longest = 0 # Keep track of highest length
 
         # While there is still string left
-        while u < len(s):
-            # If character hasn't been seen yet, set map to index+1 where it is
-            if s[u] not in h:
-                h[s[u]] = u
-            # If character has been seen, set lower bound to it's last known appearance+1 (what's stored in dict)
-            else:
-                # Keep track of longest substring
-                h[s[u]] = u
-                if longest < u-l:
-                    longest = u-l
-                    print(str(longest) + " " + str(u) + " " + str(l))
-                if l < h[s[u]]:
-                    l = h[s[u]]
-            u += 1
+        for u in range(len(s)):
+            # If the character has been seen yet, set lower bound to either last seen spot or l depending on which is bigger
+            if s[u] in h:
+                l = max(l, h[s[u]])
+            # If there is a new longest, set it to longest
+            longest = max(longest, u-l+1)
+            # Set last seen character to this index + 1
+            h[s[u]] = u+1
 
-        if longest < u-l:
-            longest = u-l
         return longest
             
