@@ -28,6 +28,3 @@ class Solution(object):
             if len(pR) == 0:
                 return -1
         return pR[0]
-
-
-        
