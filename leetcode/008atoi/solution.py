@@ -5,11 +5,8 @@ class Solution(object):
         :rtype: int
         """
         output = ""
-        print(ord(str[0]))
-        if (ord(str[0]) < 48 or ord(str[0]) > 57) or '-' != str[0]:
-            return 0
-        for i in str:
-            if ord(i) >= 48 and ord(i) <= 57:
-                output += i
+        for i in range(len(str)):
+            if ord(str[i]) >= 48 and ord(str[i]) <= 57:
+                output += str[i]
 
         return int(output)
