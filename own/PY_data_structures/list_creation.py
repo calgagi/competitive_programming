@@ -9,3 +9,6 @@ print(init_array)
 
 coords = [(x,y) for x in [1, 2, 3] for y in [1, 2, 3]]
 print(coords)
+
+squares.sort()
+print(squares)
