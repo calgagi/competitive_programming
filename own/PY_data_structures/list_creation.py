@@ -12,3 +12,11 @@ print(coords)
 
 squares.sort()
 print(squares)
+
+for i, k in enumerate(coords):
+    print(i, k)
+
+for f in sorted(set(coords)):
+    print(f)
+
+print(coords[:-5])
