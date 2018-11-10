@@ -42,17 +42,15 @@ class Graph:
     def removeCycles(self):
         # Setup recStack and visited
         recStack = [False] * self.V
-        visited = [False] * self.V
         # For all the nodes
         for i in range(self.V):
             # If visited is false, do isCyclicHelper and pass in node, visited, recStack
-            if visited[i] == False and self.removeCyclesHelper(i, visited, recStack) == True:
+            if self.removeCyclesHelper(i, recStack) == True:
                 return True
         return False
 
-    def removeCyclesHelper(self, v, visited, recStack):
+    def removeCyclesHelper(self, v, recStack):
         # Set recStack to True for this node and visited to True
-        visited[v] = True
         recStack[v] = True
         # For all the connections from this node in graph
         for neighbor in self.graph[v]:
@@ -61,7 +59,7 @@ class Graph:
             if recStack[neighbor] == True or v == neighbor:
                 self.graph[v].remove(neighbor)
             else:
-                self.removeCyclesHelper(neighbor, visited, recStack)
+                self.removeCyclesHelper(neighbor, recStack)
 
         recStack[v] = False
 
