@@ -1,4 +1,3 @@
-
 # Python Program to detect cycle in an undirected graph
 
 from collections import defaultdict
