@@ -1,0 +1,5 @@
+Merge sort
+Fibonnacci sequence
+Generate random pin w/ api
+Store tree in text file, also load it
+Reverse linked list w/ chunks
