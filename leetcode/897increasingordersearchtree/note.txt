@@ -1,0 +1,5 @@
+1. If root is none, return none
+2. Travel down to left
+3. Set left most node's right to its parent
+4. If parent has right, set parent's right node to parent of parent
+5. Return node
