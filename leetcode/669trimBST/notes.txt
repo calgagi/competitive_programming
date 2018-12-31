@@ -1,0 +1,6 @@
+1. If root is none, return none
+2. Set left and right to trim right and left (working from bottom up)
+3. If root's val is not in range:
+      If left exists or left and right exists, return left
+      Else if right exists, return right
+      Else return none
