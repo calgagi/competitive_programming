@@ -11,23 +11,22 @@ class Solution(object):
                 digitLogs.append(log)
             else:
                 letterLogs.append(log)
+                
         sortedLetterLogs = []
-
+        sortedLetterLogs2 = []
         for log in letterLogs:
             sortLog = log.split(" ")
             sortLog.append(sortLog.pop(0))
             sortLog = " ".join(sortLog)
-            print(sortLog)
-            if len(sortedLetterLogs) == 0:
-                sortedLetterLogs.append(log)
-            elif len(sortedLetterLogs) == 1:
-                if sortedLetterLogs[0] < sortLog:
-                    sortedLetterLogs.append(log)
-                else:
-                    sortedLetterLogs = [log] + sortedLetterLogs
-            else:
-                for i in range(len(sortedLetterLogs)):
-                    if sortedLetterLogs[i] < sortLog:
-                        sortedLetterLogs.insert(i, log)
-                        break
-        return sortedLetterLogs + digitLogs
+            found = 0
+            for i in range(len(sortedLetterLogs)):
+                if sortLog < sortedLetterLogs[i]:
+                    sortedLetterLogs.insert(i, sortLog)
+                    sortedLetterLogs2.insert(i, log)
+                    found = 1
+                    break
+            if not found:
+                sortedLetterLogs.append(sortLog)
+                sortedLetterLogs2.append(log)
+
+        return sortedLetterLogs2 + digitLogs
