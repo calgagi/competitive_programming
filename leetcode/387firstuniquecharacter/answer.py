@@ -1,3 +1,5 @@
+# Solution to Leetcode problem #387
+
 class Solution:
     def firstUniqChar(self, s: 'str') -> 'int':
         seen = {}
