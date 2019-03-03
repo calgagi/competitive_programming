@@ -6,3 +6,7 @@ Problems to re-do:
    * 076
    * 438
    * 030
+2. Backtracking
+   * 078
+   * 090
+   * 039
