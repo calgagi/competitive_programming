@@ -1,3 +1,5 @@
+import sys
+
 class Graph:
     def __init__(self,vertices):
         self.V = vertices #No. of vertices
@@ -21,6 +23,8 @@ class Graph:
             for i in range(self.V):
                 if self.graph[visit][i] > -1 and subset[i] == False and dist[i] > dist[visit] + self.graph[visit][i]:
                     dist[i] = dist[visit] + self.graph[visit][i]
+        if dist[dest] == float('inf'):
+            return -1
         return dist[dest]
         
     def dijkstraMinNotVisited(self, subset, dist):
@@ -31,3 +35,26 @@ class Graph:
                 mi = dist[i]
                 mi_index = i
         return mi_index
+
+# Setup
+data = sys.stdin.readlines()
+num_v = int(data.pop(0).rstrip("\n"))
+table = {}
+
+g = Graph(num_v)
+for i in range(num_v):
+    temp = data.pop(0).rstrip("\n").split(" ")
+    g.addNodeVal(i, int(temp[1]))
+    table[temp[0]] = i 
+    
+num_e = int(data.pop(0).rstrip("\n"))
+for i in range(num_e):
+    temp = data.pop(0).rstrip("\n").split(" ")
+    g.addEdge(table[temp[0]], table[temp[1]], int(temp[2]))
+    
+path = data.pop(0).rstrip("\n").split(" ")
+src = table[path[0]]
+dest = table[path[1]]
+
+print(g.dijkstra(src, dest))
+
