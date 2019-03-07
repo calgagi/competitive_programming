@@ -7,13 +7,14 @@ class Graph:
 
     def __init__(self,vertices):
         self.V= vertices #No. of vertices
-        self.graph = defaultdict(list) # default dictionary to store graph
-
-
+        self.graph = [[-1 for row in range(vertices)] for col in range(vertices)]
+        self.node_vals = [0 for i in range(vertices)]
     # function to add an edge to graph
-    def addEdge(self,v,w):
-        self.graph[v].append(w) #Add w to v_s list
-        self.graph[w].append(v) #Add v to w_s list
 
-def dijkstra(G, v):
-    sptSet = defaultdict(in)
+    def addEdge(self,t,f,w):
+        self.graph[f][t] = w + node_vals[t]
+
+    def dijkstra(self, src, dest):
+        dist = [float('inf')] * self.V
+          
+    
