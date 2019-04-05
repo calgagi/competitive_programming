@@ -1,4 +1,4 @@
-Problems to re-do:
+# Specific problems for specific algorithms
 
 1. Sliding Window
    * 567
