@@ -12,4 +12,8 @@ Problems to re-do:
    * 039
 	* 046
 	* 022
+3. Hare and Tortoise
+	* 287
+	* 141
+	* 142
 
