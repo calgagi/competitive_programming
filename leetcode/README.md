@@ -1,19 +1,19 @@
 # Specific problems for specific algorithms
 
 1. Sliding Window
-   * 567
-   * 003
-   * 076
-   * 438
-   * 030
+   * 0567
+   * 0003
+   * 0076
+   * 0438
+   * 0030
 2. Backtracking
-   * 078
-   * 090
-   * 039
-	* 046
-	* 022
+   * 0078
+   * 0090
+   * 0039
+	* 0046
+	* 0022
 3. Hare and Tortoise
-	* 287
-	* 141
-	* 142
+	* 0287
+	* 0141
+	* 0142
 
