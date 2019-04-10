@@ -6,14 +6,18 @@
    * 0076
    * 0438
    * 0030
+
 2. Backtracking
    * 0078
    * 0090
    * 0039
 	* 0046
 	* 0022
+
 3. Hare and Tortoise
 	* 0287
 	* 0141
 	* 0142
 
+4. Dynamic Programming
+	* 0096
