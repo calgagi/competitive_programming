@@ -1,26 +1,27 @@
 # Specific problems for specific algorithms
 
 1. Sliding Window
-	* 0567
-	* 0003
-	* 0076
-	* 0438
-	* 0030
+	* 567
+	* 3
+	* 76
+	* 438
+	* 30
 
 2. Backtracking
-   	* 0078
-   	* 0090
-   	* 0039
-   	* 0046
-   	* 0022
-   	* 0051
+   	* 78
+   	* 90
+   	* 39
+   	* 46
+   	* 22
+   	* 51
 
 3. Hare and Tortoise
-	* 0287
-	* 0141
-	* 0142
+	* 287
+	* 141
+	* 142
 
 4. Dynamic Programming
-	* 0096
-	* 0494
-	* 0309
+	* 96
+	* 494
+	* 309
+	* 91
