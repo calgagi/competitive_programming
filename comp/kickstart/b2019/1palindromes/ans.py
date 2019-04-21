@@ -16,7 +16,7 @@ for i in range(1, T+1):
         R = int(LR[1])
         
         seen = defaultdict(int)
-        for c in blocks[L+1:R+2]:
+        for c in blocks[L-1:R]:
             seen[c] += 1
         seenOne = 0
         for key in seen.keys():
