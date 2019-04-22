@@ -7,7 +7,7 @@
 	* -Wall shows warnings
 
 * Use ```c++
-  #include <bits/stdc++.h>```
+#include <bits/stdc++.h>```
   to include all STL
 
 * Use `ios::sync_with_stdio(0); cin.tie(0);` to make cin and cout faster!
