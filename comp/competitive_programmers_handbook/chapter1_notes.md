@@ -1,4 +1,4 @@
-Chapter 1
+Chapter 1: Introduction
 ===
 * Comp programming is two parts: Design + implementation
 
