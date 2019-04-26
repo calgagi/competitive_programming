@@ -1,4 +1,4 @@
-Chapter 3
+Chapter 3: Sorting
 ===
  * Sorting is a great algorithmic design technique example due to multiple ways of implementing, time complexities, objectives, etc.
  * Given an array of <i>n</i> elements, return array in where elements are in increasing order
