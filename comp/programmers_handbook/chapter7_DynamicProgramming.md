@@ -19,3 +19,30 @@ Longest increasing subsequence
  * Longest subarray that increases between elements
  * Use DP array that keeps track of length. Search for largest length where array[curr] > array[i]. O(n<sup>2</sup>). 
  * There is a O(nlogn) solution though that uses binary search.
+
+Paths in a grid
+---
+ * Find a path from top-left to bottom-right where path is minimized/maximized.
+ * Use `sum(row, col) = max(sum(row,col-1), sum(row-1,col)) + value[row][col]`
+
+Knapsack
+---
+ * Set of objects given, subsets with some properties must be found.
+ * Ex: Given a list of weights, find all possible weight combinations.
+	* `possible(x, k) = possible(x - wk, k-1) or possible(x, k-1)`
+	* Can be done w 1D array by working backwards
+
+Edit distance
+---
+ * The minimum number of operations needed to transform a string into another string. Also known as Levenshtein distance.
+ * Operations include insertion, remove, or modify.
+ * Use `distance(a, b)` where a and b are indices of current string and goal string.
+ * `d(a,b) = min(d(a,b-1)+1, d(a-1,b)+1, d(a-1,b-1)+cost(a,b))` where cost(a,b) = 0 if `x[a] == y[b]` else 1.
+ * This is representative of min(insert character at end of x, remove character from end of x, modify last character of x).
+
+Counting tiles
+---
+ * Find # of distinct ways to fill `n` x `m` grid with 1x2 and 2x1 tiles.
+ * Use characters to represent different states of each grid space.
+ * Go row by row down.
+ * Capital pi = Summation but multiplication. There is a surprisingly simple formula to calculate the answer to this problem. Too long to write out though.
