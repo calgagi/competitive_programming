@@ -17,3 +17,23 @@ Static array queries
 	* Precalculations done by: `minq(a, b) = min(minq(a, a+w-1), minq(a+w,b))` where `b-a+1` is a power of 2 and `w` is half of that.
 	* Find any query: `min(minq(a, a+k-1), minq(b-k+1,b))`. k is of length where the two `minq` calls overlap, creating a union
 
+Binary indexed tree
+---
+ * Also known as a Fenwick tree. Dynamic variant of prefix sum array.
+ * Allows updating array values in the prefix sum array in O(log n) time instead of O(n) (recreating the prefix sum array).
+ * `tree[k] = sumq(k - p(k) + 1, k)` where p(k) is largest power of 2 that divides k.
+ * Sums can be easily calculated due to having non-overlapping sums of zones.
+ * Use bit operations. p(k) can be easily found by doing `p(k) = k&-k`
+
+Segment tree
+---
+ * Binary tree so that leaf nodes correspond to array elements. 
+ * Supports almost all range queries
+ * Use array to create it where `tree[1]` is the root, `tree[2]` is the left child of root, `tree[3]` is right child, and `tree[n]` is the start of the leaves.
+ * Can also be used to find minimums/maximums in O(log n) time.
+
+Additional techniques
+---
+ * If we want to increase a bunch of elements by x, use a difference array.
+ * Difference array = d[i] = a[i] - a[i-1].
+ * To update a range, just update a by increasing and b by decreasing.
