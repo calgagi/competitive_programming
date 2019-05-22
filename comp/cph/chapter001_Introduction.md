@@ -34,3 +34,4 @@ Introduction to mathematics
 
 * There is a closed form for Fibonnaci sequence! Called Binet's formula
 * A logarithm of x with base b is how many times x needs to be divided by b to get to 1
+

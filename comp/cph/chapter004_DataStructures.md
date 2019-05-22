@@ -29,7 +29,14 @@ Iterators
  * Most things have `.begin()` that starts at first element and `.end()` that starts after last element. This is makes [.begin, .end) true.
  * You can do cool stuff with these. `sort(v.begin(), v.end())` and `reverse(v.begin(), v.end()`
  * For sets, you can use `auto it = s.begin();`. Then use `*it` to get element.
- 
+ * ![image](./images/iterator.png)
+ * ~~~c++
+	auto it = s.find(x);
+	if (it == s.end()) {
+		// x is not found
+	} 
+   ~~~
+
 Other structures
 ---   
  * `bitset` is array with only values 0 or 1
@@ -41,4 +48,4 @@ Other structures
 
 Comparison to sorting
 ---
- * A lot of problems can be solved just by doing sorting and data structures. For instance, some problems, despite having a worse time complexity, are actually way faster to use sorting for. 
+ * A lot of problems can be solved just by doing sorting and data structures. For instance, some problems, despite having a worse time complexity, are actually way faster to use sorting for.
