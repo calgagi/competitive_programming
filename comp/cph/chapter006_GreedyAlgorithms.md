@@ -40,3 +40,4 @@ Huffman coding
  * Greedy algorithm that constructs optimal code for compressing a given string
  * Build binary tree based on letter frequency
  * When done, LEFT = 0, RIGHT = 1. Each leaf = a letter.
+ * ![image](./images/huffman-coding.png)
