@@ -1,19 +1,12 @@
 import sys
 
-data = [int(d) for d in sys.stdin.readline().rstrip("\n").split(" ")]
+data = sys.stdin.readlines()
+bs = [int(x) for x in data[0].rstrip("\n").split(" ")]
 
-maidx = 1
-miidx = 0
-val = data[maidx]-data[miidx]
+mini = bs[0]
+ans = -10000001
+for i in range(1, len(bs)):
+    mini = min(bs[i-1], mini)
+    ans = max(ans, bs[i]-mini)
 
-for i in range(len(data)):
-    if data[i] <= data[miidx]:
-        miidx = i
-        maidx = i+1
-        if i+1 < len(data):
-            val = max(data[maidx]-data[miidx], val)
-    elif data[i] > data[maidx]:
-        maidx = i
-        val = max(data[maidx]-data[miidx], val)
-
-print(val)
+print(ans)

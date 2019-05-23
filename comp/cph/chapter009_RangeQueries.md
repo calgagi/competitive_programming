@@ -11,6 +11,7 @@ Static array queries
 	* Use prefix sum array! An array that is equal to sum from 0 to n.
 	* That way, you can calculate a sum in O(1) by doing `prefix[b] - prefix[a-1]`.
 	* Can also be done in 2D.
+		* ![image](./images/2d-prefix-sum.png) 
 		* If point A is bottom right, point D is top left, and prefix[][] is the very top left, then `S(A) - S(B) - S(C) + S(D)` where B and C are other corners.
  * <b>Minimum queries</b>
 	* Idea: Precalculate all values of `min(a,b)` where `b - a + 1` is a power of 2. 
@@ -30,6 +31,7 @@ Segment tree
  * Binary tree so that leaf nodes correspond to array elements. 
  * Supports almost all range queries
  * Use array to create it where `tree[1]` is the root, `tree[2]` is the left child of root, `tree[3]` is right child, and `tree[n]` is the start of the leaves.
+ * ![image](./images/segment-tree.png)
  * Can also be used to find minimums/maximums in O(log n) time.
 
 Additional techniques

@@ -1,25 +1,25 @@
 import sys
 
+# Setup data
 data = sys.stdin.readlines()
+sentence = data.pop(0).rstrip("\n")
+num_char = int(data.pop(0).rstrip("\n"))
+height = int(data.pop(0).rstrip("\n"))
+# Parse data
+table = {}
+for k in range(num_char):
+    # Get key
+    key = data.pop(0).rstrip("\n")
+    val = []
+    for i in range(height):
+        val.append(data.pop(0).rstrip("\n"))
+    table[key] = val
 
-# Get important stuff
-output = data[0].rstrip("\n")
-chars = int(data[1].rstrip("\n"))
-size = int(data[2].rstrip("\n"))
-
-# Create map and put characters into their slots
-asciiMap = {}
-iterator = 3
-for i in range(chars):
-    char = data[iterator].rstrip("\n")
-    iterator += 1
-    temp = []
-    for j in range(size):
-        temp.append(data[iterator].rstrip("\n"))
-        iterator += 1
-    asciiMap[char] = temp
-
-for i in range(size):
-    for j in range(len(output)):
-        sys.stdout.write(asciiMap[output[j]][i])
+# Print data
+for h in range(height):
+    for i in range(len(sentence)):
+        sys.stdout.write(table[sentence[i]][h])
     sys.stdout.write("\n")
+
+    
+
