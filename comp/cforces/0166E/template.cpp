@@ -10,20 +10,16 @@ int main(){
     cin.tie(0);
 
 	int n; cin >> n;
-	if (n == 1) {
-		cout << 0 << endl;
-		return 0;
-	}
-	int d = 1;
-	int abc = 0;
+	long long abc = 0;
+	long long d = 1;
 	long long MOD = 1000000007;
 	for (int i = 1; i <= n; i++) {
-		int x = abc * 3LL % MOD;
-		int y = (abc * 2LL + d) % MOD;
-		d = x;
-		abc = y;
+		long long tabc = (2LL * abc + d) % MOD;
+		long long td = (3LL * abc) % MOD;
+		abc = tabc;
+		d = td;	
 	}
-	cout << x << endl;
+	cout << d << endl;
 
 	return 0;
 }
