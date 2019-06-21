@@ -5,3 +5,6 @@ According to Wikipedia, a man named Narayana Pandita presented the following sim
     Swap nums[k] and nums[l].
     Reverse the sub-array nums[k + 1:].
 
+
+https://www.youtube.com/watch?v=quAS1iydq7U
+
