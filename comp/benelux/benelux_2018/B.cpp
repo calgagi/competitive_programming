@@ -15,8 +15,17 @@ int main(){
     for (int i = 0; i < n; i++) {
         int m, o;
         cin >> throwaway >> m >> d >> o;
-        b[i] = (a[m]+d) - (a[10]+27)
+        b[i] = ((a[m]+d) + 364-(a[10]+27)) % 365;
     }
-    sort(b.begin(), b.end());    
+    sort(b.begin(), b.end());
+    int r = 0, m = 0;
+    for (int j = 1; j < n; j++) {
+        if (b[j]-b[j-1]-1 > m) { 
+            m = b[j]-b[j-1]-1;
+            r = b[j]-1;
+        }
+    }
+    if (b[0]-
+    while (m
     return 0;
 }
