@@ -17,11 +17,13 @@ int find(vector<int>& u, int a) {
     return a;
 }
 
-void unite(vector<int> &u, int x, int y) {
+void unite(vector<int> &u, vector<int> &size, int x, int y) {
     int xset = find(u, x);
     int yset = find(u, y);
+    if (size[xset] < size[yset]) swap(xset,yset);
     if (xset != yset) {
-        u[xset] = yset;
+        size[xset] += size[yset];
+        u[yset] = xset;
     }
     return;
 }
@@ -49,9 +51,9 @@ int main(){
     queue<tuple<Node*, Node*, int> > sa;
     sa.push(make_tuple(startA, startB, 0));
     vector<int> u(n);
+    vector<int> size(n, 1);
     for (int i = 0; i < n; i++) u[i] = i;
-    int i = n-1;
-    while (i && sa.size()) {
+    while (!sa.empty()) {
         startA = get<0>(sa.front());
         startB = get<1>(sa.front()); 
         a = get<2>(sa.front());
@@ -61,10 +63,9 @@ int main(){
             return 0;
         }
         if (find(u, startA->i) == find(u, startB->i)) continue;
-        unite(u, startA->i, startB->i); 
+        unite(u, size, startA->i, startB->i); 
         sa.push(make_tuple(startA->l, startB->l, a+1));
         sa.push(make_tuple(startA->r, startB->r, a+1));
-        i--;
     }
     cout << "indistinguishable" << endl;
     return 0;
