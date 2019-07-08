@@ -9,6 +9,21 @@ struct Node {
     bool see;
     Node* r;
     Node* l;
+    int i;
+};
+
+int find(vector<int>& u, int a) {
+    while (u[a] != a) a = u[a];
+    return a;
+}
+
+void unite(vector<int> &u, int x, int y) {
+    int xset = find(u, x);
+    int yset = find(u, y);
+    if (xset != yset) {
+        u[xset] = yset;
+    }
+    return;
 }
 
 int main(){
@@ -22,6 +37,7 @@ int main(){
         cin >> l >> r >> t;
         if (!m[i]) m[i] = new Node;
         m[i]->see = t;
+        m[i]->i = i;
         if (!m[l]) m[l] = new Node; 
         m[i]->l = m[l];
         if (!m[r]) m[r] = new Node;
@@ -30,22 +46,27 @@ int main(){
 
     // BFS
     Node* startA = m[a], * startB = m[b];
-    stack<pair<Node*, int> > sa;
-    stack<pair<Node*, int> > sb;
-    sa.push({startA, 0});
-    sb.push({startB, 0});
-    while (!sa.empty()) {
-        startA = sa.top().first;
-        a = sa.top().second;
-        startB = sa.top().first;
-        b = sa.top().second;
+    queue<tuple<Node*, Node*, int> > sa;
+    sa.push(make_tuple(startA, startB, 0));
+    vector<int> u(n);
+    for (int i = 0; i < n; i++) u[i] = i;
+    int i = n-1;
+    while (i && sa.size()) {
+        startA = get<0>(sa.front());
+        startB = get<1>(sa.front()); 
+        a = get<2>(sa.front());
         sa.pop();
-        sb.pop(); 
-        if (startA->see != startB->see) {
+        if (startA->see ^ startB->see) {
             cout << a << endl; 
             return 0;
         }
-        if (
+        if (find(u, startA->i) == find(u, startB->i)) continue;
+        unite(u, startA->i, startB->i); 
+        sa.push(make_tuple(startA->l, startB->l, a+1));
+        sa.push(make_tuple(startA->r, startB->r, a+1));
+        i--;
+    }
+    cout << "indistinguishable" << endl;
     return 0;
 
 }
