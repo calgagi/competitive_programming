@@ -1,8 +1,7 @@
 # comp
 Programming competitions I've competed in or did for practice.
 
-# Cool algorithms
-A list of cool algorithms I've met in my exploration.
+Here's a list of cool algorithms I've discovered.
 
 Union find
 ---
