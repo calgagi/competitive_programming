@@ -3,7 +3,9 @@
 // Competitive Programming Template
 #include <bits/stdc++.h>
 
+#define ull unsigned long long
 #define ll long long
+#define ld long double
 
 using namespace std;
 
