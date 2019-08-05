@@ -81,3 +81,22 @@ bool* sieve(int n) {
     return prime;
 }
 ~~~
+
+Binary Search
+---
+Used to find an element in a sorted array in O(logn) time.
+~~~c++
+int binary_search(vector<int> nums, int target) {
+    int l = 0, r = nums.size();
+    while (l <= r) {
+        int m = (l + r) / 2;
+        if (nums[m] == target) 
+            return m;
+        else if (nums[m] < target)
+            r = m - 1; 
+        else if (nums[m] > target)
+            l = m + 1;
+    }
+    return -1;
+}
+~~~
