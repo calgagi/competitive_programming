@@ -9,30 +9,23 @@
 
 using namespace std;
 
-ull factorial(int x) {
-    ull t = 1;
-    for (int i = 1; i <= x; i++) {
-        t *= i;
-    }
-    return t;
-}
-
-
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    vector<ull> f(3);
-    f[2] = 1;
+    ull* f = new ull[50];
+    f[1] = f[0] = f[2] = 1;
+    ull t = 1;
+    for (int i = 2; i < 50; i++) {
+        t *= i;
+        f[i] = t / (2 * f[i-2]);
+    }
 
 
     int n; cin >> n; 
     for (int t = 0; t < n; t++) {
         ull x; cin >> x;
-        while (f.back() < x) {
-            f.push_back((factorial(f.size()+1))/(2*f[f.size()-2]));
-        }
-        int numE = f.size()-1;
+        int numE = min((int)sqrt(x), 50);
         while (x % f[numE] != 0) {
             numE--;
         }
@@ -47,7 +40,7 @@ int main(){
         int numO = x / numS;
         for (int i = 0; i < numO; i++)
             cout << '1';
-        for (int i = 0; i < numE; i++)
+        for (int i = 0; i < max(numE, 2); i++)
             cout << '3';
         for (int i = 0; i < numS; i++)
             cout << '7';
