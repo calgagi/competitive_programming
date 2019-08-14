@@ -10,10 +10,10 @@
 using namespace std;
 
 
-long gcd(long a, long b) { 
-        if (a == 0) 
-                    return b; 
-            return gcd(b % a, a); 
+ull gcd(ull a, ull b) { 
+    if (a == 0) 
+        return b; 
+    return gcd(b % a, a); 
 }
 
 int main(){
@@ -22,10 +22,10 @@ int main(){
 
 
     int n; cin >> n;
-    vector<long> input(n);
+    vector<ull> input(n);
     for (int i = 0; i < n; i++)
         cin >> input[i];
-    long g = input[0];
+    ull g = input[0];
     for (int i = 1; i < n; i++) {
         g = gcd(g, input[i]);
     }
@@ -38,8 +38,6 @@ int main(){
                 r += 2;
         }
     }
-    ld sr = sqrt(g);
-    if (sr - floor(sr) == 0) r++; 
     cout << r << endl;  
     
 

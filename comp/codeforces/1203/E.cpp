@@ -18,21 +18,25 @@ int main(){
 
     for (int i = 0; i < n; i++) {
         int x; cin >> x;
-        c[x]++;
+        c[x-1]++;
     }
-    for (int i = 150000; i > 0; i--) {
+    for (int i = 150000; i >= 0; i--) {
         if (c[i] && c[i+1] == 0) {
-            c[i+1]++;
             c[i]--;
-        }
-        if (c[i] > 1 && i-1 > 0 && c[i-1] == 0) {
+            c[i+1]++;
+        } 
+    }   
+    for (int i = 1; i <= 150001; i++) {
+        if (c[i] && c[i-1] == 0) {
             c[i]--;
             c[i-1]++;
-        }
+        } 
     }
+
     int r = 0;
-    for (int i = 0; i <= 150001; i++)
-        r += min(1, c[i]);
+    for (int i = 0; i <= 150001; i++) {
+        r += (bool) c[i];
+    }
     cout << r << endl;
 
     return 0;
