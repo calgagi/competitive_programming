@@ -100,3 +100,52 @@ int binary_search(vector<int> nums, int target) {
     return -1;
 }
 ~~~
+
+Bellman-Ford algorithm
+---
+Used to find shortest path to all nodes from initial node. Supports negative edge weights. O(V*E) where V = number of vertices and E = number of edges. Can also be used to determine if graph has negative cycle by increasing rounds from V-1 to V.
+~~~c++
+vector<int> bellman_ford(vector<tuple<int,int,int> > E, int V) { 
+    vector<int> distance(V, INT_MAX);
+    // Starting node
+    distance[0] = 0;
+    // Maximum path = V-1 edges
+    for (int i = 0; i < V-1; i++) {
+        for (auto edge : E) {
+            int a, b, w;
+            tie(a, b, w) = edge;
+            distance[b] = min(distance[b], distance[a]+w);
+        }
+    }
+    return distance;
+}
+~~~
+
+Dijkstra's algorithm
+---
+Used to find shortest path to all nodes from initial node. Does not support negative weights. O(V + E*log(E)).  
+~~~c++
+vector<int> dijkstra(vector<vector<pair<int,int> > > graph) {
+    vector<int> distance(graph.size(), INT_MAX);
+    distance[0] = 0;
+    priority_queue<pair<int,int> > q;
+    q.push({0,0});
+    unordered_set<int> processed;
+    while (!q.empty()) {
+        int a = q.front().second;
+        q.pop();
+        if (processed.find(a) != processed.end()) continue;
+        processed.insert(a);
+        for (pair<int,int>& edge : graph[a]) {
+            int b = edge.first, w = edge.second;
+            if (distance[a] + w < distance[b]) {
+                distance[b] = distance[a] + w;
+                q.push({-distance[b], b});
+            }
+        }
+    }
+    return distance;
+}
+~~~
+
+
