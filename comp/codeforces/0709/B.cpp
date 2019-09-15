@@ -15,33 +15,27 @@ int main(){
 
     int n, a;
     cin >> n >> a;
-    int l, ln, rn, r, b;
-    r = INT_MIN, l = INT_MAX;
-    for (int i = 0; i < n; i++) {
-        cin >> b;
-        if (l > b) {
-            ln = min(l, ln);
-            l = b;
-        } else if (ln > b) {
-            ln = b;
-        }
-        if (r < b) {
-            rn = max(r, rn);
-            r = b;
-        } else if (rn < b) {
-            rn = b;
-        }
-    }
-    if (a < l)
-        cout << rn - a << endl;
-    else if (a > r)
-        cout << ln - a << endl;
+    int arr[n];
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    sort(arr, arr+n);
+    if (n == 1)
+        cout << 0 << endl;
+    else if (n == 2)
+        cout << min(abs(a - arr[0]), abs(a - arr[1])) << endl;
+    else if (a <= arr[0])
+        cout << arr[n-2] - a << endl;
+    else if (a >= arr[n-1])
+        cout << abs(arr[1] - a) << endl;
     else {
-        int lf = 2*abs(a - ln) + r;
-        int rf = 2*abs(a - rn) + l;
-        cout << min(lf, rf) << endl;
+        int r = abs(arr[n-1] - a);
+        int l = abs(arr[0] - a);
+        int rn = abs(arr[n-2] - a);
+        int ln = abs(arr[1] - a);
+        int x = min(min(r + 2*ln, 2*r + ln), min(l + 2*rn, 2*l + rn)); 
+        int y = INT_MAX;
+        if (a <= arr[1]) y = min(r, y);
+        if (a >= arr[n-2]) y = min(l, y);
+        cout << min(x, y) << endl;
     }
-
-
     return 0;
 }
