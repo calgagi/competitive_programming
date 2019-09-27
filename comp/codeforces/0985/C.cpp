@@ -26,13 +26,13 @@ int main(){
         cout << "0" << endl;
         return 0;
     }
-    while (e < s.size() && s[e] - s[0] > l) e++;
+    while (e < s.size() && s[e] - s[0] <= l) e++;
 
     ll r = 0, j = 0;
     for (int i = 0; i < n; i++) {
         r += s[i];
         ll m = j;
-        while (j < e - n - i && j-m < k) j++; 
+        while (j <= e - (n-i) && j-m < k) j++; 
     } 
     cout << r << endl;
     return 0;

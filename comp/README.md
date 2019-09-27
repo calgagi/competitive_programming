@@ -147,5 +147,3 @@ vector<int> dijkstra(vector<vector<pair<int,int> > > graph) {
     return distance;
 }
 ~~~
-
-
