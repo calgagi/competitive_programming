@@ -6,6 +6,9 @@
 #define ull unsigned long long
 #define ll long long
 #define ld long double
+#define x first
+#define y second
+#define pb push_back
 
 using namespace std;
 
