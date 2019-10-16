@@ -169,6 +169,23 @@ vector<int> dijkstra(vector<vector<pair<int,int> > > graph) {
 }
 ~~~
 
+Floyd-Warshall algorithm
+---
+Used to find shortest paths from all nodes to all nodes that are represented in an adjacency list. O(n<sup>3</sup>), simple implementation.
+~~~c++
+void floydwarshall(vector<vector<int> > graph) {
+    for (int k = 0; k < graph.size(); k++) {
+        for (int i = 0; i < graph.size(); i++) {
+            for (int j = 0; j < graph.size(); j++) {
+                graph[i][j] = min(graph[i][j],
+                                  graph[i][k] + graph[k][j]);
+            }
+        }
+    }
+    return;
+}
+~~~
+
 Coordinate hashmap
 ---
 Hashmap in C++ that uses a std::pair as a key.
