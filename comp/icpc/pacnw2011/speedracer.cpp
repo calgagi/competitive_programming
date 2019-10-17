@@ -15,13 +15,20 @@ using namespace std;
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
+
+/*
+ *    (a v^4 + b v^3 + c v^2 + d v) * (m / v) = t
+ *       a v^3 + b v^2 + c v + d = t/m
+ *        */
 	
+    // Set precision
     cout.setf(ios::fixed, ios::floatfield);
     cout.precision(2);
 
     ld a, b, c, d, m, t;
     while (true) {
         cin >> a >> b >> c >> d >> m >> t;
+        // If no more cin, break
         if (cin.fail()) break;
         
         ld l = 0.0, h = (t / m - d) / c;

@@ -199,3 +199,14 @@ struct pair_hash {
     }
 };
 ~~~
+
+No number of lines
+---
+Test if there's no more stdin available.
+~~~c++
+while (true) {
+    cin >> a >> b >> c;
+    if (cin.fail()) break;
+    // ...
+}
+~~~
