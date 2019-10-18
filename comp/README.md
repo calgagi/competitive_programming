@@ -149,11 +149,13 @@ Used to find shortest path to all nodes from initial node. Does not support nega
 vector<int> dijkstra(vector<vector<pair<int,int> > > graph) {
     vector<int> distance(graph.size(), INT_MAX);
     distance[0] = 0;
-    priority_queue<pair<int,int> > q;
+    priority_queue<pair<int,int>, vector<pair<int, int> >, greater<pair<int, int> > > q;
+    // Where first = total distance, second = node
+    // Priority queue sorts in increasing order 
     q.push({0,0});
     unordered_set<int> processed;
     while (!q.empty()) {
-        int a = q.front().second;
+        int a = q.top().second;
         q.pop();
         if (processed.find(a) != processed.end()) continue;
         processed.insert(a);

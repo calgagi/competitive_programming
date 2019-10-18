@@ -9,6 +9,9 @@
 #define x first
 #define y second
 #define pb push_back
+#define forn(i, n) for(int i = 0; i < int(n); ++i)
+#define fore(i, l, r) for(int i = int(l); i < int(r); ++i)
+#define forb(i, n) for(int i = int(n) - 1; i >= 0; --i)
 
 using namespace std;
 
