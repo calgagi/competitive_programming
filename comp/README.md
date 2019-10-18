@@ -1,42 +1,42 @@
 # comp
 Programming competitions I've competed in or did for practice.
 
-Here's a list of cool algorithms/tips I've discovered.
+Here's a list of cool algorithms I've discovered.
 
 Union find
 ---
-Used to perform operations on a disjoint-set data structure.
-
-Initialization:
+Used to perform operations on a disjoint-set data structure. Can find which set an element is in and unite elements in O(log(n)) time.
 ~~~c++
-int link[n], size[n];
-for (int i = 0; i < n; i++)
-    link[i] = i;
-memset(size, 1, sizeof(int)*n);
-~~~
+class UnionFind {
+public:
+    int *link, *size;
 
-Find:
-~~~c++
-int find(int *link, int x) {
-    while (x != link[x]) x = link[x];
-    return x;
-} 
-~~~
+    UnionFind(int n) {
+        link = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; i++)
+            link[i] = i;
+        memset(size, 1, sizeof(int)*n);
+    }
 
-Unite:
-~~~c++
-void unite(int *link, int *size, int a, int b) {
-    a = find(link, a);
-    b = find(link, b);
-    if (size[a] < size[b]) swap(a,b);
-    size[a] += size[b];
-    link[b] = a;
-}
+    int find(int x) {
+        while (x != link[x]) x = link[x];
+        return x;
+    } 
+
+    void unite(int a, int b) {
+        a = find(link, a);
+        b = find(link, b);
+        if (size[a] < size[b]) swap(a,b);
+        size[a] += size[b];
+        link[b] = a;
+    }
+};
 ~~~
 
 Euclidean algorithm
 ---
-Used to find the greatest common divisor.
+Used to find the greatest common divisor. Time: O(log(a) + log(b)).
 ~~~c++
 int gcd(int a, int b) { 
     if (a == 0) 
@@ -68,7 +68,7 @@ bool valid_triangle(int a, int b, int c) {
 
 isPrime
 ---
-Used to find if a number is prime.
+Used to find if a number is prime. Time: O(sqrt(n)).
 ~~~c++
 bool isPrime (int n) {
     if (n <= 1) return false;
@@ -85,7 +85,7 @@ bool isPrime (int n) {
 
 The Sieve of Eratosthenes
 ---
-Used to find prime numbers in range.
+Used to find prime numbers in range. Time: O(n*log(log(n))).
 ~~~c++
 bool* sieve(int n) {
     bool* prime = new bool[n+1];
@@ -185,30 +185,5 @@ void floydwarshall(vector<vector<int> > graph) {
         }
     }
     return;
-}
-~~~
-
-Coordinate hashmap
----
-Hashmap in C++ that uses a std::pair as a key.
-~~~c++
-struct pair_hash {
-    template <class T1, class T2>
-    size_t operator () (const pair<T1,T2> &p) const {
-        auto h1 = hash<T1>{}(p.first);
-        auto h2 = hash<T2>{}(p.second);
-        return h1 ^ h2;  
-    }
-};
-~~~
-
-No number of lines
----
-Test if there's no more stdin available.
-~~~c++
-while (true) {
-    cin >> a >> b >> c;
-    if (cin.fail()) break;
-    // ...
 }
 ~~~
