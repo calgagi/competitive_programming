@@ -5,7 +5,7 @@ Here's a list of cool algorithms I've discovered.
 
 Union find
 ---
-Used to perform operations on a disjoint-set data structure. Can find which set an element is in and unite elements in O(log(n)) time.
+Used to perform operations on a disjoint-set data structure. Find and Unite time: O(log(n)).
 ~~~c++
 class UnionFind {
 public:
@@ -56,7 +56,7 @@ int lcm(int a, int b) {
 
 Triangle Inequality Theorem
 ---
-Test to see if three side lengths can make a valid triangle.
+Test to see if three side lengths can make a valid triangle. Time: O(1).
 ~~~c++
 bool valid_triangle(int a, int b, int c) {
     if (a + b <= c) return false;
@@ -105,7 +105,7 @@ bool* sieve(int n) {
 
 Binary Search
 ---
-Used to find an element in a sorted array in O(logn) time.
+Used to find an element in a sorted array. Time: O(log(n)).
 ~~~c++
 int binary_search(vector<int> nums, int target) {
     int l = 0, r = nums.size();
@@ -124,8 +124,8 @@ int binary_search(vector<int> nums, int target) {
 
 Bellman-Ford algorithm
 ---
-Used to find shortest path to all nodes from initial node. Supports negative edge weights. O(V*E) where V = number of vertices and E = number of edges. Can also be used to determine if graph has negative cycle by increasing rounds from V-1 to V.
-~~~c++
+Used to find shortest path to all nodes from initial node. Supports negative edge weights. E[i] = {src, dst, weight}. Time: O(V*E). 
+~~c++
 vector<int> bellman_ford(vector<tuple<int,int,int> > E, int V) { 
     vector<int> distance(V, INT_MAX);
     // Starting node
@@ -173,7 +173,7 @@ vector<int> dijkstra(vector<vector<pair<int,int> > > graph) {
 
 Floyd-Warshall algorithm
 ---
-Used to find shortest paths from all nodes to all nodes that are represented in an adjacency list. O(n<sup>3</sup>), simple implementation.
+Used to find shortest paths from all nodes to all nodes that are represented in an adjacency list. Time: O(n<sup>3</sup>). 
 ~~~c++
 void floydwarshall(vector<vector<int> > graph) {
     for (int k = 0; k < graph.size(); k++) {
@@ -187,3 +187,37 @@ void floydwarshall(vector<vector<int> > graph) {
     return;
 }
 ~~~
+
+Kahn's algorithm
+---
+Used to perform topological sort. Time: O(V + E).
+~~~c++
+vector<Node*> kahn(vector<Node*> graph) {
+    unordered_map<Node*, int> num_connections;
+    vector<Node*> res;
+    vector<Node*> fringe;
+    // Populate num_connections
+    for (auto& n : graph)
+        for (auto& e : n->edges)
+            num_connections[e]++;
+    // Populate fringe 
+    for (auto it = num_connections.begin(); it != num_connections.end(); it++)
+        if (it.second == 0)
+            fringe.push_back(it.first);
+    // Begin algorithm
+    while (!fringe.empty()) {
+        vector<Node*> new_fringe;
+        for (auto& n : fringe) {
+            res.push_back(n);
+            for (auto& e : n->edges) {
+                num_connections[e]--;
+                if (num_connections[e] == 0)
+                    new_fringe.push_back(e);
+            }
+        }
+        fringe = new_fringe;
+    }
+    // Warning: If center of graph has cycle, cycle will not be added to res.
+    return res;
+}
+~~~  

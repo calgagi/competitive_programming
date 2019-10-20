@@ -10,3 +10,4 @@
     * 0173 - Binary tree iterator
     * 0078 - Generate subsets
     * 0215 - Kth largest element
+    * 0567 - Permutation in string
