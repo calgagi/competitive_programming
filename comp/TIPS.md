@@ -13,7 +13,6 @@ struct pair_hash {
         return h1 ^ h2;  
     }
 };
-
 unordered_map<pair<int,int>, int, pair_hash> map;
 ~~~
 
@@ -27,3 +26,7 @@ while (true) {
     // ...
 }
 ~~~
+
+Sliding window
+---
+
