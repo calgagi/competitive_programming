@@ -221,3 +221,58 @@ vector<Node*> kahn(vector<Node*> graph) {
     return res;
 }
 ~~~  
+
+Segment tree
+---
+Used to perform range queries. The example below is for sum queries. Creating tree: O(n) time, O(4*n) memory. Update and query are O(log(n)).
+~~~c++
+class SegmentTree {
+public:
+    int size;
+    vector<int> tree;
+    
+    // Usage: (1, 0, this->size, i, j) for sum of [i, j]
+    int sum(int v, int tl, int tr, int l, int r) {
+        if (l > r) 
+            return 0;
+        if (tl == l && tr == r) 
+            return tree[v];
+        int tm = (tl + tr) / 2;
+        return sum(v*2, tl, tm, l, min(r, tm)) + sum((v*2)+1, tm+1, tr, max(l, tm+1), r);
+    }
+    
+    // Usage (1, 0, this->size, i, v) where i == index you want to update and v == new value
+    void update(int v, int tl, int tr, int i, int new_val) {
+        if (tl == tr) {
+            tree[v] = new_val;
+        } else {
+            int tm = (tl + tr) / 2;
+            if (tm <= i) 
+                update(v*2, tl, tm, i, new_val);
+            else 
+                update((v*2)+1, tm+1, tr, i, new_val);
+            tree[v] = tree[v*2] + tree[(v*2)+1];
+        }
+    }
+
+    void createTree(vector<int>& input, int v, int tl, int tr) {
+        if (tl == tr) {
+            tree[v] = input[tl];
+        } else {
+            int tm = (tl + tr) / 2;
+            createTree(input, v*2, tl, tm);
+            createTree(input, (v*2)+1, tm+1, tr);
+            tree[v] = tree[v*2] + tree[(v*2)+1];
+        }
+        return;
+    }
+
+    SegmentTree(vector<int>& input) {
+        if (input.size() == 0) 
+            return;
+        tree.resize(4*input.size());
+        size = input.size()-1;
+        createTree(input, 1, 0, size);
+    }
+};
+~~~
