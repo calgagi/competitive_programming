@@ -224,7 +224,7 @@ vector<Node*> kahn(vector<Node*> graph) {
 
 Segment tree
 ---
-Used to perform range queries. The example below is for sum queries. Creating tree: O(n) time, O(4*n) memory. Update and query are O(log(n)).
+Used to perform range queries on mutable arrays. The example below is for sum queries. Creating tree: O(n) time, O(4*n) memory. Update and query are O(log(n)).
 ~~~c++
 class SegmentTree {
 public:
@@ -276,3 +276,32 @@ public:
     }
 };
 ~~~
+
+Sliding window algorithm
+---
+An algorithm pattern that is ran on a 1D array to find a subarray that fits problem requirements. Uses two pointers to create a "window" in the array. Time: O(n).
+~~~c++
+int sliding_window(string s) {
+    if (s.length() == 0) return 0;
+    unordered_map<char, int> requirements;
+    int counter = 0;
+    for (char& c : s) {
+        requirements[c]++;
+        if (requirements[c] == 2) counter++;
+    }
+    int b = 0, e = 0, m = INT_MAX;
+    while (e < s.length()) {
+        requirements[s[e]]--;
+        if (requirements[s[e]] == 1)
+            counter--;
+        while (b < s.length() && counter == 0) {
+            m = min(m, e-(b-1));
+            requirements[s[b]]++;
+            if (requirements[s[b]] == 2) counter++;
+            b++;
+        }
+        e++;
+    }
+    return m;
+}
+~~~ 
