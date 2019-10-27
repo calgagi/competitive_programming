@@ -124,9 +124,10 @@ int binary_search(vector<int> nums, int target) {
 
 Bellman-Ford algorithm
 ---
-Used to find shortest path to all nodes from initial node. Supports negative edge weights. E[i] = {src, dst, weight}. Time: O(V*E). 
+Used to find shortest path to all nodes from initial node. Supports negative edge weights. Time: O(V*E). 
 ~~c++
 vector<int> bellman_ford(vector<tuple<int,int,int> > E, int V) { 
+    // E[i] = {src, dst, weight}
     vector<int> distance(V, INT_MAX);
     // Starting node
     distance[0] = 0;
