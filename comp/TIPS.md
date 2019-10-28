@@ -23,10 +23,73 @@ Test if there's no more stdin available.
 while (true) {
     cin >> a >> b >> c;
     if (cin.fail()) break;
-    // ...
+    // Rest of your code...
 }
 ~~~
 
-Sliding window
+Min stack modification
 ---
+Get the minimum element in a stack in O(1) time.
+~~~c++
+stack<pair<int,int> > s;
+
+// Insertion
+int new_min = s.empty() ? new_elem : min(new_elem, s.top().second);
+s.push({new_elem, new_min});
+
+// Get min
+int min_in_stack = s.top().second;
+
+// Get element
+int element = s.top().first;
+~~~
+
+Min queue modification
+---
+Get the minimum element in a queue in O(1) time by implementing the queue with 2 stacks.
+
+Method 1: Use deque.
+~~~c++
+deque<int> q;
+
+// Find min
+int mininum = q.front();
+
+// Insert
+while (!q.empty() && q.back() > new_elem)
+    q.pop_back();
+q.push_back(new_elem);
+
+// Removal
+if (!q.empty() && q.front() == removal)
+    q.pop_front();
+~~~
+
+Method 2: Use two stacks.
+~~~c++
+stack<pair<int,int> > s1, s2;
+
+// Find min
+if (s1.empty() || s2.empty())
+    minimum = s1.empty() ? s2.top().second : s1.top().second;
+else
+    minimum = min(s1.top().second, s2.top().second);
+
+// Insertion
+minimum = s1.empty() ? new_elem : min(s1.top().second, new_elem));
+s1.push({new_elem, minimum});
+
+// Removal
+if (s2.empty()) {
+    while (!s1.empty()) {
+        int elem = s1.top().first;
+        s1.pop();
+        int minimum = s2.empty() ? elem : min(elem, s2.top().second);
+        s2.push({elem, minimum});
+    }
+}
+int remove = s2.top().first;
+s2.pop();
+~~~ 
+
 
