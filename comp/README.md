@@ -278,6 +278,8 @@ public:
 };
 ~~~
 
+Fenwick tree
+
 Sliding window algorithm
 ---
 An algorithm pattern that is ran on a 1D array to find a subarray that fits problem requirements. Uses two pointers to create a "window" in the array. Time: O(n).
