@@ -278,7 +278,38 @@ public:
 };
 ~~~
 
-Fenwick tree
+Sparse table 
+---
+Used to perform range queries on immutable arrays. Most range queries can be calculated in O(log(n)), but minimum and maximum queries are O(1). It is extremely powerful for this reason.
+~~~c++
+class Sparse {
+public:
+    vector<vector<int> > st;
+    vector<int> log;
+
+    Sparse(vector<int>& in) {
+        // Compute logarithm base 2
+        log.resize(in.size()+1);
+        log[1] = 0;
+        for (int i = 2; i <= in.size(); i++)
+            log[i] = log[i/2] + 1;
+        // Create 2D array of [in.size()][K+1] where K = log2(in.size())
+        st = vector<vector<int> >(in.size(), vector<int>(log[in.size()]+1));
+        // Initialize
+        for (int i = 0; i < in.size(); i++) 
+            st[i][0] = in[i];
+        // Compute queries
+        for (int j = 1; j <= log[in.size()]; j++) 
+            for (int i = 0; i + (1 << j) <= log[in.size()]; i++)
+                st[i][j] = min(st[i][j-1], st[i + (1 << (j-1))][j-1]);
+    }
+    
+    int get(int l, int r) {
+        int j = log[r - l + 1];
+        return min(st[l][j], st[r - (1 << j) + 1][j]);
+    }
+};
+~~~
 
 Sliding window algorithm
 ---
@@ -308,3 +339,4 @@ int sliding_window(string s) {
     return m;
 }
 ~~~ 
+
