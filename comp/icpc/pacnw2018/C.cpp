@@ -32,21 +32,23 @@ int main() {
 
     unordered_map<int,int> m;
     int n, k; cin >> n >> k;
-    vector<int> b(n);
-    int j = 0;
     forn(i, n) {
         int a; cin >> a;
-        if (m.find(a) == m.end())
-            m[a] = j++;
-        b[m[a]]++;
+        m[a]++;
     }
-    ll total = 1;
-    if (j < k) {
-        cout << "0" << endl;
-        return;
-    }
-    ll res = 0;
+    vector<int> a(1, 0);
+    for (auto i = m.begin(); i != m.end(); i++)
+        a.pb(i->second);
+
+    vector<vector<ll> > dp(m.size()+1, vector<ll>(k+1, 0));
+    forn(i, k) dp[i][0] = 1;
     
+    for (int i = 1; i < dp.size(); i++) {
+        for (int j = 1; j < k+1; j++) {
+            dp[i][j] = add(mult(a[i], dp[i-1][j-1]), dp[i-1][j]);
+        }
+    }    
+    cout << dp.back().back() << endl;
         
          
     return 0;
