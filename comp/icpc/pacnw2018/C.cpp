@@ -14,42 +14,36 @@
 #define forb(i, n) for(int i = int(n) - 1; i >= 0; --i)
 
 using namespace std;
-
-ll MOD = 998244353; 
+ll MOD = 998244353;
 
 int add(long a, long b) {
     return (a + b) % MOD;
-}
+} 
 
 int mult(long a, long b) {
     return (a * 1LL * b) % MOD;
 }
 
-
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    unordered_map<int,int> m;
     int n, k; cin >> n >> k;
+    unordered_map<int,int> c;
+    int x;
     forn(i, n) {
-        int a; cin >> a;
-        m[a]++;
+        cin >> x;
+        c[x]++;
     }
-    vector<int> a(1, 0);
-    for (auto i = m.begin(); i != m.end(); i++)
-        a.pb(i->second);
+    n = c.size();
+    vector<vector<int> > dp(k+1, vector<int>(n+1, 0));
+    forn(i, n+1) dp[0][i] = 1;
+    vector<int> v;
+    for (auto& it : c) v.pb(it.second);
+    fore(i, 1, k+1)
+        fore(j, 1, n+1)
+            dp[i][j] = add(mult(dp[i-1][j-1], v[j-1]), dp[i][j-1]);
+    cout << dp.back().back() << endl;	
 
-    vector<vector<ll> > dp(m.size()+1, vector<ll>(k+1, 0));
-    forn(i, k) dp[i][0] = 1;
-    
-    for (int i = 1; i < dp.size(); i++) {
-        for (int j = 1; j < k+1; j++) {
-            dp[i][j] = add(mult(a[i], dp[i-1][j-1]), dp[i-1][j]);
-        }
-    }    
-    cout << dp.back().back() << endl;
-        
-         
     return 0;
 }
