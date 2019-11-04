@@ -54,7 +54,7 @@ int lcm(int a, int b) {
 }
 ~~~
 
-Triangle Inequality Theorem
+Triangle inequality theorem
 ---
 Test to see if three side lengths can make a valid triangle. Time: O(1).
 ~~~c++

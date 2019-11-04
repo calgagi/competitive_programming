@@ -92,4 +92,6 @@ int remove = s2.top().first;
 s2.pop();
 ~~~ 
 
-
+Bezout's identity
+---
+For non-zero integers `a` and `b`, let `d` be equal to `gcd(a, b)`. Then, there exists integers `x` and `y` such that `ax + by = d`.
