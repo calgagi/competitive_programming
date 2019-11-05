@@ -340,3 +340,32 @@ int sliding_window(string s) {
 }
 ~~~ 
 
+Improved analytical formula
+---
+Used to calculate the binomial coefficient `n` choose `k`. Time: O(k).
+~~~c++
+int C(int n, int k) {
+    double res = 1;
+    for (int i = 1; i <= k; i++)
+        res = res * (n - k + i) / i;
+    return (int)(res + 0.01);
+}
+~~~
+
+Pascal's triangle
+---
+Used to calculate a table of binomial coefficients. Can also be used relatively easily to calculate `n` choose `k` modulo `m` by `% m` to the nested for loop. Time: O(n<sup>2</sup>). 
+~~~c++
+int** pascals(int N) {
+    int** C = new int*[N+1];
+    for (int i = 0; i < N+1; i++)
+        C[i] = new int[N+1];
+    C[0][0] = 0;
+    for (int n = 1; n <= N; n++) {
+        C[n][0] = C[n][n] = 1;
+        for (int k = 1; k < n; k++)
+            C[n][k] = C[n-1][k-1] + C[n-1][k];
+    }
+    return C;
+}
+~~~

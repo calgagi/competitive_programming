@@ -95,3 +95,12 @@ s2.pop();
 Bezout's identity
 ---
 For non-zero integers `a` and `b`, let `d` be equal to `gcd(a, b)`. Then, there exists integers `x` and `y` such that `ax + by = d`.
+
+Binomial coefficients
+---
+Calculate the number of ways to select a set of `k` elements from `n` different elements without taking into account the order of the elements (number of unordered sets). Equivalent to `n` choose `k` = (`n`!) / (`k`! (`n`-`k`)!).
+![Properties](https://ibb.co/mqnC6wm)
+
+Stars and bars
+---
+The number of ways to put `n` identical objects into `k` boxes is `n + k - 1` choose `n`. Combination can be solved using binomial coefficient algorithm.
