@@ -369,3 +369,93 @@ int** pascals(int N) {
     return C;
 }
 ~~~
+
+Polynomial rolling hash function
+---
+Used to calculate hashes of strings so that string equality can be determined in O(1). Time: O(n).
+~~~c++
+long long rolling_hash(string const& s) {
+    // Pick prime near number of character possibilities. i.e. 26 letters = 31
+    const int p = 31; 
+    // Modulus
+    const int m = 1e9 + 9;
+    long long hash = 0;
+    long long p_pow = 1;
+    for (char& c : s) {
+        hash = (hash + (c - 'a' + 1) * p_pow) % m;
+        p_pow = (p_pow * p) % m;
+    }
+    return hash;
+}
+~~~
+
+Rabin-Karp algorithm
+---
+Used to find all patterns `s` in a text `t`. Time: O(|s| + |t|).
+~~~c++
+vector<int> rabin_karp(string const& s, string const& t) {
+    // Same as polynomial rolling
+    const int p = 31;
+    const int m = 1e9 + 9;
+    int S = s.size(), T = t.size();
+    // Calculate all p values
+    vector<long long> p_pow(max(S, T));
+    for (int i = 1; i < (int)p_pow.size(); i++)
+        p_pow[i] = (p_pow[i-1] * p) % m;
+
+    // Calculate hashes at each spot inside of t
+    vector<long long> h(T + 1, 0);
+    for (int i = 0; i < T; i++)
+        h[i+1] = (h[i] + (t[i] - 'a' + 1) * p_pow[i]) % m;
+    // Calculate h_s, the hash of size s inside of t
+    long long h_s = 0;
+    for (int i = 0; i < S; i++)
+        h_s = (h_s + (s[i] - 'a' + 1) * p_pow[i]) % m;
+    // Find occurences
+    vector<int> o;
+    for (int i = 0; i + S - 1 < T; i++) {
+        long long cur_h = (h[i+S] + m - h[i]) % m;
+        if (cur_h == h_s * p_pow[i] % m)
+            o.push_back(i);
+    }
+    return o;
+}
+~~~
+
+Find bridges
+---
+A bridge is an edge which makes the graph disconnected if removed. Time: O(V + E).
+~~~c++
+// Adjacency list of graph
+vector<vector<int> > graph;    
+
+vector<bool> visited;
+vector<int> tin, low;
+int timer;
+
+void dfs(int v, int p = -1) {
+    visited[v] = true;
+    tin[v] = low[v] = timer++;
+    for (int to : graph[v]) {
+        if (to == p) continue;
+        else if (visited[to]) low[v] = min(low[v], tin[to]);
+        else {
+            dfs(to, v);
+            low[v] = min(low[v], low[to]);
+            if (low[to] > tin[v]) ;
+                // IT'S A BRIDGE, PROCESS 
+        }
+    }
+}
+
+void find_bridges() {
+    timer = 0;
+    visited.assign(graph.size(), false);
+    tin.assign(graph.size(), -1);
+    low.assign(graph.size(), -1);
+    for (int i = 0; i < graph.size(); i++)
+        if (!visited[i]) dfs(i);
+}
+~~~
+
+
