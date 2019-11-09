@@ -45,6 +45,24 @@ int gcd(int a, int b) {
 }
 ~~~ 
 
+Extended Euclidean algorithm
+---
+Used to find coefficients `x` and `y` such that `ax + by = gcd(a, b)`.
+~~~c++
+int gcd(int a, int b, int & x, int & y) {
+    if (a == 0) {
+        x = 0;
+        y = 1;
+        return b;
+    }
+    int x1, y1;
+    int d = gcd(b % a, a, x1, y1);
+    x = y1 - (b / a) * x1;
+    y = x1;
+    return d;
+}
+~~~
+
 Least common multiple
 ---
 Used to find the least common multiple.
@@ -422,9 +440,9 @@ vector<int> rabin_karp(string const& s, string const& t) {
 }
 ~~~
 
-Find bridges
+Modified Tarjan's algorithm
 ---
-A bridge is an edge which makes the graph disconnected if removed. Time: O(V + E).
+Used to find bridges. A bridge is an edge which makes the graph disconnected if removed. Time: O(V + E).
 ~~~c++
 // Adjacency list of graph
 vector<vector<int> > graph;    
@@ -458,4 +476,84 @@ void find_bridges() {
 }
 ~~~
 
+Kruskal's algorithm
+---
+Used to find the minimal spanning tree (MST). Time: O(E*log(V) + V<sup>2</sup>).
+~~~c++
+struct edge {
+    int u, v, weight;
+    bool operator<(edge const& other) {
+        return weight < other.weight;
+    }
+};
 
+int n;
+vector<edge> edges;
+int cost = 0;
+vector<int> tree_id(n);
+vector<edge> result;
+for (int i = 0; i < n; i++) tree_id[i] = i;
+sort(edges.begin(), edges.end());
+
+for (edge e : edges) {
+    if (tree_id[e.u] != tree_id[e.v]) {
+        cost += e.weight;
+        result.push_back(e);
+        int old_id = tree_id[e.u], new_id = tree_id[e.v];
+        for (int i = 0; i < n; i++)
+            if (tree_id[i] == old_id)
+                tree_id[i] = new_id;
+    }
+}
+~~~
+
+Edmonds-Karp algorithm
+---
+Used to find the maximum flow of a flow network. Time: O(V*E<sup>2</sup>).
+~~~c++
+int n;
+vector<vector<int>> capacity;
+vector<vector<int>> adj;
+
+int bfs(int s, int t, vector<int>& parent) {
+    fill(parent.begin(), parent.end(), -1);
+    parent[s] = -2;
+    queue<pair<int, int>> q;
+    q.push({s, INF});
+
+    while (!q.empty()) {
+        int cur = q.front().first;
+        int flow = q.front().second;
+        q.pop();
+
+        for (int next : adj[cur]) {
+            if (parent[next] == -1 && capacity[cur][next]) {
+                parent[next] = cur;
+                int new_flow = min(flow, capacity[cur][next]);
+                if (next == t)
+                    return new_flow;
+                q.push({next, new_flow});
+            }
+        }
+    }
+
+    return 0;
+}
+
+int maxflow(int s, int t) {
+    int flow = 0;
+    vector<int> parent(n);
+    int new_flow;
+    while (new_flow = bfs(s, t, parent)) {
+        flow += new_flow;
+        int cur = t;
+        while (cur != s) {
+            int prev = parent[cur];
+            capacity[prev][cur] -= new_flow;
+            capacity[cur][prev] += new_flow;
+            cur = prev;
+        }
+    }
+    return flow;
+}
+~~~
