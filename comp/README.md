@@ -182,7 +182,7 @@ vector<int> dijkstra(vector<vector<pair<int,int> > > graph) {
             int b = edge.first, w = edge.second;
             if (distance[a] + w < distance[b]) {
                 distance[b] = distance[a] + w;
-                q.push({-distance[b], b});
+                q.push({distance[b], b});
             }
         }
     }
@@ -451,11 +451,15 @@ vector<bool> visited;
 vector<int> tin, low;
 int timer;
 
+// p = parent in this case.
 void dfs(int v, int p = -1) {
     visited[v] = true;
+    // tin is the "time in" of the node.
     tin[v] = low[v] = timer++;
     for (int to : graph[v]) {
         if (to == p) continue;
+        // low keeps track of which strongly connected component
+        // the node is a part of.
         else if (visited[to]) low[v] = min(low[v], tin[to]);
         else {
             dfs(to, v);
@@ -480,6 +484,7 @@ Kruskal's algorithm
 ---
 Used to find the minimal spanning tree (MST). Time: O(E*log(V) + V<sup>2</sup>).
 ~~~c++
+// An edge struct that has an operator overload for <
 struct edge {
     int u, v, weight;
     bool operator<(edge const& other) {
@@ -495,10 +500,13 @@ vector<edge> result;
 for (int i = 0; i < n; i++) tree_id[i] = i;
 sort(edges.begin(), edges.end());
 
+// Greedy algorithm
 for (edge e : edges) {
+    // If edge connects two components that are not connected
     if (tree_id[e.u] != tree_id[e.v]) {
         cost += e.weight;
         result.push_back(e);
+        // Connect trees (components)
         int old_id = tree_id[e.u], new_id = tree_id[e.v];
         for (int i = 0; i < n; i++)
             if (tree_id[i] == old_id)
