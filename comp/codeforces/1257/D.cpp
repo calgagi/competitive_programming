@@ -23,45 +23,57 @@ int main() {
     forn(t, T) {
         int n; cin >> n;
         vector<int> monsters(n);
-        for(auto& i : monsters) cin >> i;
-        int h; cin >> h;
-        vector<pair<int,int> > heroes(h);
-        for(auto& p : heroes) cin >> p.x >> p.y;
-        
-        vector<vector<int> > dp(h+1, vector<int>(n+1, 0));
-        forn(i, n+1) dp[0][i] = -1;
-        
-        fore(i, 1, h+1) {
-            int streak = heroes[i-1].y;
-            fore(j, 1, n+1) {
-                // If can fight another monster
-                if (heroes[i-1].x >= monsters[j-1]) {
-                    if (dp[i-1][j-1] == -1) {
-                        dp[i][j] = dp[i][j-1];
-                        if (streak >= heroes[i-1].y) {
-                            dp[i][j]++;
-                            streak = 0;
-                        }
-                    } else {
-                        dp[i][j] = dp[i-1][j-1]+1;
-                        if (streak >= heroes[i-1].y) {
-                            dp[i][j] = min(dp[i][j], dp[i][j-1]+1);
-                            streak = 0;
-                        }
-                    }
-                } else {
-                    streak = 0;
-                    dp[i][j] = dp[i-1][j];
-                }
-                streak++;
-            }
+        int max_monster = 0;
+        for(auto& i : monsters) {
+            cin >> i;
+            max_monster = max(max_monster, i);
         }
-        forn(i, n+1)
-            if (dp[h][i] == -1) {
-                dp[h][n] = -1;
-                break;
+        int h; cin >> h;
+        unordered_map<int,int> e;
+        int max_e = 0;
+        pair<int,int> x;
+        forn(i, h) {
+            cin >> x.x >> x.y;
+            if (!e.count(x.y)) e[x.y] = 0;
+            e[x.y] = max(x.x, e[x.y]);
+            max_e = max(x.y, max_e);
+        } 
+        vector<int> endurances(max_e+1, 0);
+        endurances[max_e] = e[max_e];
+        map<int,int> tree;
+        tree[e[max_e]] = max_e;
+        forb(i, max_e) {
+            if (e.count(i))
+                endurances[i] = max(endurances[i+1], e[i]);
+            else endurances[i] = endurances[i+1];
+            if (endurances[i] != endurances[i+1])
+                tree[endurances[i]] = i;
+        }
+        //for(auto it = tree.begin(); it != tree.end(); it++) cout << it->first << "," << it->second << " ";
+        //cout << endl;
+        if (max_monster > endurances[1]) {
+            cout << -1 << endl;
+        } else {
+            int res = 0;
+            int i = 0;
+            while (i < n) {
+                auto cur = tree.upper_bound(monsters[i]-1);
+                int j;
+                for (j = 1; j < cur->second && i+j < n; j++) {
+                    if (monsters[j+i] > cur->first) {
+                        auto maybe_cur = tree.upper_bound(monsters[j+i]-1);
+                        if (maybe_cur->second >= j+1)
+                            cur = maybe_cur;
+                        else
+                            break;
+                    }
+                }
+                i += j;
+                res++;
+                      
             }
-        cout << dp[h][n] << endl;
+            cout << res << endl;
+        }
     }
                  
 
