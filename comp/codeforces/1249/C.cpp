@@ -20,13 +20,9 @@ int main() {
     cin.tie(0);
 	
     long q; cin >> q;
-    forn(i, q) {
-        ull b; cin >> b;
-        ull x = 1;
-        while (x < b) x *= 3;
-        ull z = b;
-        while (b > 0) {
-            if (z 
+    forn(j, q) {
+        ll i; cin >> i;
+        
     }
 
     return 0;
