@@ -21,25 +21,30 @@ int main() {
     cin.tie(0);
     srand(chrono::steady_clock::now().time_since_epoch().count());
     
-    unordered_map<ll,int> freq;
     int n; cin >> n;
     vector<ll> nums(n);
     forn(i, n) cin >> nums[i];
-    ll i;
-    forn(j, 20) {
-        ll x = nums[rand()%n];
-        for(i = 1; i <= sqrt(x); i++) {
-            if(x % i == 0) {
+    ll ans = 0;
+    unordered_map<ll,int> freq;
+    unordered_map<ll,bool> seen;
+    forn(j, 50) {
+        ll x = rand()%n;
+        if(seen[x]) continue; 
+        seen[x] = true;
+        x = nums[x];
+        for(ll i = 1; i < sqrt(x)+1; i++) {
+            if (x % i == 0) {
                 freq[i]++;
-                if(i*i != x) freq[x/i]++;
+                if (i*i != x)
+                    freq[x/i]++;
             }
         }
     }
-    ll res = 1;
     for(auto it = freq.begin(); it != freq.end(); it++)
-        if (it->second >= (n+1/2))
-            res = max(it->first,res);
-    cout << res << endl;
+        if (it->second >= min((n+1)/2, 25))
+            ans = max(it->first,ans);
+
+    cout << ans << endl;
 
     return 0;
 }
