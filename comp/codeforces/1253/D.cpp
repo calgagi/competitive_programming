@@ -15,40 +15,6 @@
 
 using namespace std;
 
-
-class UF {
-    public:
-        vector<ll> size;
-        vector<int> link;
-        vector<int> max_item;
-
-        UF(int n) {
-            size.resize(n);
-            link.resize(n);
-            forn(i,n) {
-                size[i] = 1;
-                link[i] = i;
-            }
-            max_item = link;
-        }
-
-        int find(int a) {
-            while(a != link[a]) {
-                a = link[a];
-            }
-            return a;
-        }
-
-        void unite(int a, int b) {
-            a = find(a);
-            b = find(b);
-            if(size[b] < size[a]) swap(a,b);
-            link[a] = b;
-            size[b] += size[a];
-            max_item[a] = max_item[b] = max(max_item[a],max_item[b]);
-        }
-};
-
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -56,24 +22,36 @@ int main() {
 	
     int n, m;
     cin >> n >> m;
-    UF uf(n+1);
+    vector<int> attached(n+1, -1);
+    vector<bool> before(n+1, false);
+    for(int i = 0; i < n+1; i++) attached[i] = i;
     forn(i,m) {
-        int a, b;
-        cin >> a >> b;
-        uf.unite(a,b);
+        int from, to;
+        cin >> from >> to;
+        if(from > to) swap(to, from);
+        attached[from] = max(attached[from], to);
+        before[to] = true;
     }
+    // Algorithm
+    // For all nodes i:
+    //      If attached[i] > i:
+    //          e = attached[i];
+    //          i++;
+    //          while i < e:
+    //              e = max(attached[i], e);
+    //              if(i 
     
     int ans = 0;
-    forn(i, n) {
-        int j;
-        for(j = i+1; j <= uf.max_item[i]; j++) {
-            if(uf.find(j) != uf.find(i)) {
-                uf.unite(i,j);
-                ans++;
-                uf.max_item[i] = max(uf.max_item[i], uf.max_item[j]);
+    fore(i, 1, n+1) {
+        if(a[i] != i) {
+            int e = a[i];
+            i++;
+            while(i < e){
+                if(!attached[i] && a[i] > e) ans++;
+                e = max(e, a[i]);
+                i++;
             }
         }
-        i = j-1; 
     }
     cout << ans << endl;
 
