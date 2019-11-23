@@ -16,8 +16,6 @@
 using namespace std;
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
     srand(chrono::steady_clock::now().time_since_epoch().count());
     vector<int> ans(6, 0);
 	
@@ -25,12 +23,13 @@ int main() {
     vector<unordered_map<int,int>> possibles(6);
     int queryone, queryfour;
     forn(i, 4) { 
-        cout<<"? "<<i+1<<" "<<i+2<<endl, cout.flush();
+        printf("? %d %d\n", i+1, i+2);
+        fflush(stdout);
         int query; cin >> query;
         if (i == 0) queryone = query;
         if (i == 3) queryfour = query;
         for (auto& j : s) {
-            if (query % j == 0 && s.find(query / j) != s.end() && possibles[i].find(j) == possibles[i].end()) {
+            if (query % j == 0 && query/j != j && s.find(query / j) != s.end() && possibles[i].find(j) == possibles[i].end()) {
                 possibles[i][j]++;
                 possibles[i][query / j]++;
                 possibles[i+1][query / j]++;
@@ -42,11 +41,9 @@ int main() {
         for(auto j : possibles[i]) {
             if (j.second == 2) {
                 ans[i] = j.first;
-                cout << ans[i] << endl;
             }
         }
     }
-
     ans[0] = queryone / ans[1];
     ans[4] = queryfour / ans[3];    
      
