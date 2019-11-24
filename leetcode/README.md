@@ -12,3 +12,5 @@
 * 0215 - Kth largest element
 * 0567 - Permutation in string
 * 0307 - Mutable range sum query
+* 0560 - Subarray sums equals k
+* 1074 - Submatrix sums equals k

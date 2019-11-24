@@ -1,8 +1,8 @@
-# problems
+# competitive\_programming 
 
-A collection of algorithmic problems that I am doing as a hobby and preparation for programming competitions and technical interviews.
+A collection of solutions to competitive programming problems.
 
 This repository is currently split into three folders:
-* `comp` for competitive programming competitions 
-* `leetcode` for problems from Leetcode
-* `own` is just a sandbox for practice
+* `comp` for problems from competitions
+* `leetcode` for problems from Leetcode (interview type problems)
+* `own` for a sandbox (i.e. invent own problems) 
