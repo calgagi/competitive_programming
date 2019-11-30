@@ -104,3 +104,7 @@ Calculate the number of ways to select a set of `k` elements from `n` different 
 Stars and bars
 ---
 The number of ways to put `n` identical objects into `k` boxes is `n + k - 1` choose `n`. Combination can be solved using binomial coefficient algorithm.
+
+Linearity of expected value
+---
+Expected Value (`E(X)`) is the probability of something `P(X)` multiplied by the value `X`. Linearity of EV says that `E(X + Y) = E(X) + E(Y)` regardless of whether `X` and `Y` are independent.
