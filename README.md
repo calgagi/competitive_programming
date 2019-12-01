@@ -7,7 +7,8 @@ This repository is currently split into three folders:
 * `leetcode` for problems from Leetcode (interview type problems)
 * `own` for a sandbox (i.e. invent own problems) 
 
-## Algorithms
+See below for a list of cool algorithms/data structures I've learned about.
+
 
 Union find
 ---
@@ -75,18 +76,6 @@ Used to find the least common multiple.
 ~~~c++
 int lcm(int a, int b) {
     return (a * b) / gcd(a, b);
-}
-~~~
-
-Triangle inequality theorem
----
-Test to see if three side lengths can make a valid triangle. Time: O(1).
-~~~c++
-bool valid_triangle(int a, int b, int c) {
-    if (a + b <= c) return false;
-    if (a + c <= b) return false;
-    if (b + c <= a) return false;
-    return true;
 }
 ~~~
 
