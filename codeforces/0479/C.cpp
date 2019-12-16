@@ -22,6 +22,21 @@ int main() {
     cin.tie(0);
     srand(chrono::steady_clock::now().time_since_epoch().count());
 
+    int n; cin >> n;
+    vector<pair<int,int>> days(n);
+    forn(i, n) {
+        cin >> days[i].F >> days[i].S;
+    } 
+    sort(days.begin(), days.end());
+    int res = min(days[0].F, days[0].S);
+    fore(i, 1, n) {
+        if (days[i].S >= res)
+            res = days[i].S;
+        else
+            res = days[i].F;
+    }        
+    cout << res << endl;    
+        
 
     return 0;
 }
