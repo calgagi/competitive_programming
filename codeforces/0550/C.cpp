@@ -26,5 +26,30 @@ int main() {
     cin.tie(0);
     srand(chrono::steady_clock::now().time_since_epoch().count());
 
+    string s; cin >> s;
+    const int n = s.length();
+    for (int i = 0; i < n; i++) { 
+        if (s[i] == '0' || s[i] == '8') {
+            cout << "YES\n" << s[i] << endl;
+            return 0;
+        }
+        for (int j = i+1; j < n; j++) {
+            string y = s.substr(i,1) + s.substr(j,1);
+            if (stoi(y) % 8 == 0) {
+                cout << "YES\n" << y << endl;
+                return 0;
+            }
+ 
+            for (int k = j+1; k < n; k++) {
+                string x = s.substr(i,1) + s.substr(j,1) + s.substr(k,1);
+                if (stoi(x) % 8 == 0) {
+                    cout << "YES\n" << x << endl;
+                    return 0;
+                }
+           
+            }
+        }
+    }
+    cout << "NO\n";
     return 0;
 }
