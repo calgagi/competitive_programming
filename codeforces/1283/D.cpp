@@ -12,66 +12,39 @@ int main() {
     cout.tie(NULL);
     srand(chrono::steady_clock::now().time_since_epoch().count());
 
-    // Greedy?
-    //  Find all points 1 spot away from xmas trees, 2 spots, etc.
-    //  Basic n^2 solution not fast enough
-    //  Priority queue = not fast enough because 10^9 space needed
-    //
-    //  For each distance 1..2..3, use hashmap to see if taken.
-    //  Loop through each tree
-
     int n, m; cin >> n >> m;
     vector<int> trees(n);
+    set<int> seen;
     for (auto& i : trees) { 
         cin >> i;
+        seen.insert(i);
     }
+
+    vector<int> people;
+    long long ans = 0;
+    queue<pair<int,int>> q;
     
-    int dist = 1;
-    vector<int> people(m);
-
-    sort(trees.begin(), trees.end());
-
-
-    int j = 0, ans = 0;
-    while (j < m) {
-        people[j++] = trees[0]-dist;
-        ans += dist;
-        if (j < m) {
-            people[j++] = trees[(int)trees.size()-1]+dist;
-            ans += dist;
-        }
-        if (j < m) {
-            for (int i = 1; i < (int)trees.size(); i++) {
-                if (trees[i-1] + dist < trees[i] - dist) {
-                    people[j++] = trees[i-1]+dist;
-                    ans += dist;
-                    if (j < m) {
-                        people[j++] = trees[i]-dist;
-                        ans += dist;
-                    }
-                } else if (trees[i-1] + dist == trees[i] - dist) {
-                    people[j++] = trees[i-1]+dist;
-                    ans += dist;
-                } else if ((int)trees.size() > 2) {
-                    if (i == 1) {
-                        trees.erase(trees.begin()+i);
-                        i--;
-                    } else {
-                        trees.erase(trees.begin()+i-1);
-                        i--;
-                    }
-                }
-            }
-        }
-        dist++;
+    for (int i = 0; i < n; i++) {
+        q.push({trees[i]-1, 1});
+        q.push({trees[i]+1, 1}); 
     }
-
-            
+    while ((int) people.size() < m) {
+        pair<int,int> p = q.front();
+        q.pop();
+        if (seen.find(p.first) == seen.end()) {
+            seen.insert(p.first);
+            people.push_back(p.first);
+            ans += p.second;
+            if (seen.find(p.first+1) == seen.end())
+                q.push({p.first+1, p.second+1});
+            if (seen.find(p.first-1) == seen.end())
+                q.push({p.first-1, p.second+1});
+        }
+    }
 
     cout << ans << endl;
-    for (auto& i : people) cout << i << " ";
-    cout << endl; 
-
-
+    for (auto& item : people) cout << item << " ";
+    cout << endl;
+    
     return 0;
 }
