@@ -12,5 +12,8 @@ int main() {
     cout.tie(NULL);
     srand(chrono::steady_clock::now().time_since_epoch().count());
 
+    int t = 1; 
+    // cin >> t;
+
     return 0;
 }
