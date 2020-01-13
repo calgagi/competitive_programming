@@ -6,8 +6,9 @@
 
 using namespace std;
 
-#define ll long long;
-#define ull unsigned long long;
+using ll = long long;
+using ull = unsigned long long;
+using ii = pair<int,int>;
 
 int main() {
     // Makes cin/cout fast like scanf/printf
