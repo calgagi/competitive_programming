@@ -1,38 +1,41 @@
 class Solution {
 public:
-    vector<vector<int>> dp;
-    const int MAX_J = 3000000;
+    vector<int> dp;
     
-    int dfs(vector<int>& jobDifficulty, int d) {
-        int n = jobDifficulty.size();
-        if (n == 0 && d == 0) {
-            return 0;
+    int dfs(vector<vector<int>>& g, int s) {
+        if (dp[s] != -1) {
+            return dp[s];
         }
-        if (d < 0) {
-            return MAX_J;
+        int res = 1;
+        for (auto& j : g[s]) {
+            res = max(dfs(g, j)+1, res);
         }
-        if (n < d) {
-            dp[n][d] = MAX_J;
-        } else {
-            if (dp[n][d] != MAX_J) {
-                return dp[n][d];
-            }
-            int c = -1;
-            vector<int> save = jobDifficulty;
-            for (int i = n-1; i >= 0; i--) {
-                c = max(jobDifficulty[i], c);
-                jobDifficulty.pop_back();
-                dp[n][d] = min(dp[n][d], dfs(jobDifficulty, d-1) + c);
-            }
-            jobDifficulty = save;
-        }
-        return dp[n][d];
+        dp[s] = res;
+        return res;
     }
     
-    int minDifficulty(vector<int>& jobDifficulty, int d) {
-        int n = jobDifficulty.size();
-        if (n < d) return -1;
-        dp.assign(1005, vector<int>(13, MAX_J));
-        return dfs(jobDifficulty, d);
+    int maxJumps(vector<int>& arr, int d) {
+        int n = arr.size();
+        vector<vector<int>> graph(n);
+        dp.assign(n,  -1);
+
+        for (int i = 0; i < n; i++)  {
+            int x = 1;
+            while (x <= d && i-x >= 0 && arr[i-x] < arr[i]) {
+                graph[i].push_back(i-x);
+                x++;
+            }
+            x = 1;
+            while (x <= d && i+x < n && arr[i+x] < arr[i]) {
+                graph[i].push_back(i+x);
+                x++;
+            }
+        }
+        // dfs
+        int best = 1;
+        for (int i = 0; i < n; i++) {
+            best = max(best, dfs(graph, i));
+        }
+        return best;
     }
 };
