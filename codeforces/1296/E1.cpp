@@ -10,21 +10,21 @@ using ll = long long;
 using ull = unsigned long long;
 using ii = pair<int,int>;
 
-map<char, vector<char>> graph;
+map<int, vector<int>> graph;
 vector<int> marked;
 
-bool dfs(char cur, int color) {
-    if (marked[cur-'a'] == -1) {
-        marked[cur-'a'] = color;
+bool dfs(int cur, int color) {
+    if (marked[cur] == -1) {
+        marked[cur] = color;
     }
     int next_color = (color == 0 ? 1 : 0);
     for (auto& e : graph[cur]) {
-        if (marked[e-'a'] == -1) {
+        if (marked[e] == -1) {
             bool that = dfs(e, next_color);
             if (that == false) {
                 return false;
             }
-        } else if (marked[e-'a'] == marked[cur-'a']) {
+        } else if (marked[e] == marked[cur]) {
             return false;
         }
     }
@@ -40,37 +40,38 @@ int main() {
     
     int n;
     cin >> n;
-    string s, sorted;
+    string s; 
     cin >> s;
 
-    sorted = s;
-    sort(sorted.begin(), sorted.end());
-    marked.assign(26, -1);
+    marked.assign(n, -1);
     
     // Make undirected graph
     for (int i = 0; i < n; i++) {
-        if (sorted[i] == s[i]) continue;
-        if (i > 0 && s[i] != s[i-1]) {
-            graph[s[i]].push_back(s[i-1]);
-            graph[s[i-1]].push_back(s[i]);
-        } 
-        if (i < n-1 && s[i] != s[i+1]) {
-            graph[s[i]].push_back(s[i+1]);
-            graph[s[i+1]].push_back(s[i]);
+        for (int j = 0; j < i; j++) {
+            if (s[i] < s[j]) {
+                graph[i].push_back(j);
+                graph[j].push_back(i);
+            } 
+        }
+        for (int j = i+1; j < n; j++) {
+            if (s[i] > s[j]) {
+                graph[j].push_back(i);
+                graph[i].push_back(j);
+            }
         }
     }
 
     // Now, must color graph
     bool res = true;
     for (int i = 0; i < n; i++) {
-        if (marked[s[i]-'a'] == -1) {
-            res &= dfs(s[i], 1);
+        if (marked[i] == -1) {
+            res &= dfs(i, 1);
         }
     }
     if (res) {
         cout << "YES" << endl;
-        for (auto& item : s) {
-            cout << marked[item-'a'];
+        for (int i = 0; i < n; i++) {
+            cout << marked[i];
         } 
         cout << endl;
     } else {
