@@ -16,46 +16,26 @@ vector<string> split(const string &);
  */
 
 int minAccommodationFactor(vector<int> door, vector<int> status) {
-    // Minimize the number of people in each door
-    // Allocate people with larger status first to doors
-    int n = status.size(), nd = door.size();
-    vector<int> counts(nd, 0);
-    sort(status.begin(), status.end(), greater<int>());
     sort(door.begin(), door.end(), greater<int>());
-    door.push_back(0);
+    sort(status.begin(), status.end(), greater<int>());
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> q;
+    door.push_back(-100);
+    int res = 0;
+    vector<int> counts(door.size(), 0);
     int j = 0;
-    // Put people in smallest possible rooms first
-    for (int i = 1; i <= nd; i++) {
-        while (j < n && status[j] > door[i]) {
-            counts[i-1]++;
+    for (int i = 0; i < door.size()-1; i++) {
+        q.push({0, i});
+        while (j < status.size() && status[j] > door[i+1]) {
+            pair<int,int> p = q.top();
+            q.pop();
+            counts[p.second]++;
+            q.push({counts[p.second], p.second});
             j++;
         }
-        //cout << counts[i-1] << " ";
     }
-    int res = counts[0], space = 0;
-    // Fill up bigger rooms now that have less people
-    for (int i = 1; i < nd; i++) {
-        if (counts[i] <= res) {
-            space += res-counts[i];
-        } else {
-            // Can put people in space
-            if (counts[i] <= space+res) {
-                space -= counts[i]-res;
-            } else {
-            // Cannot put people in space... need to increment rooms by 1
-            // i rooms so far
-                // first allocate all the space
-                int num_rooms = i+1;
-                counts[i] -= space;
-                counts[i] -= res;
-                // now all space is a giant rectangle (all rooms have equal amount of people)
-                // Continually add rows
-                int to_add = counts[i] / num_rooms;
-                res += to_add;
-                // new space = the number of rooms that don't reach res+to_add
-                space = num_rooms - (counts[i] % num_rooms); 
-            }
-        }
+    
+    for (auto& i : counts) {
+        res = max(i, res);
     }
     return res;
 }
