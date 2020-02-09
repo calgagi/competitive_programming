@@ -24,12 +24,27 @@ int main() {
 
     int N;    
     cin >> N;
-    vector<int> hills(N);
+    vector<ll> hills(N);
+    ll start = INT_MAX, end = INT_MIN;
     for (auto& h : hills) {
         cin >> h;
+        start = min(start, h);
+        end = max(end, h);
     }
 
-
+    ll best = LLONG_MAX;
+    for (ll i = start; i <= end; i++) {
+        ll tot = 0, range = i + 17;
+        for (const auto& h : hills) {
+            if (h < i || h > range) {
+                tot += pow(min(abs(h-range), abs(h-i)), 2);
+            }
+        }
+        // cerr << i << " " << tot << endl;
+        best = min(best, tot);
+    }
+        
+    cout << best << endl;
 
     return 0;
 }
