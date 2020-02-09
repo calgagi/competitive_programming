@@ -13,20 +13,25 @@ public:
     UnionFind(int n) {
         link = new int[n];
         size = new int[n];
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) {
             link[i] = i;
+        }
         memset(size, 1, sizeof(int)*n);
     }
 
     int find(int x) {
-        while (x != link[x]) x = link[x];
+        while (x != link[x]) {
+            x = link[x];
+        }
         return x;
     } 
 
     void unite(int a, int b) {
         a = find(link, a);
         b = find(link, b);
-        if (size[a] < size[b]) swap(a,b);
+        if (size[a] < size[b]) {
+            swap(a,b);
+        }
         size[a] += size[b];
         link[b] = a;
     }
@@ -38,33 +43,16 @@ Euclidean algorithm
 Used to find the greatest common divisor. Time: O(log(a) + log(b)).
 ~~~c++
 int gcd(int a, int b) { 
-    if (a == 0) 
-        return b; 
+    if (a == 0) {
+        return b;
+    }
     return gcd(b % a, a); 
 }
 ~~~ 
 
-Extended Euclidean algorithm
----
-Used to find coefficients `x` and `y` such that `ax + by = gcd(a, b)`.
-~~~c++
-int gcd(int a, int b, int & x, int & y) {
-    if (a == 0) {
-        x = 0;
-        y = 1;
-        return b;
-    }
-    int x1, y1;
-    int d = gcd(b % a, a, x1, y1);
-    x = y1 - (b / a) * x1;
-    y = x1;
-    return d;
-}
-~~~
-
 Least common multiple
 ---
-Used to find the least common multiple.
+Used to find the least common multiple. Requires Euclidean algorithm.
 ~~~c++
 int lcm(int a, int b) {
     return (a * b) / gcd(a, b);
@@ -99,10 +87,13 @@ bool* sieve(int n) {
     prime[1] = false;
     int m = sqrt(n);
 
-    for (int i = 2; i <= m; i++)
-        if (prime[i])
-            for (int k = i * i; k <= n; k += i)
-                prime[k]=false;
+    for (int i = 2; i <= m; i++) {
+        if (prime[i]) {
+            for (int k = i * i; k <= n; k += i) {
+                prime[k] = false;
+            }
+        }
+    }
     
     return prime;
 }
@@ -113,15 +104,16 @@ Binary Search
 Used to find an element in a sorted array. Time: O(log(n)).
 ~~~c++
 int binary_search(vector<int> nums, int target) {
-    int l = 0, r = nums.size();
+    int l = 0, r = nums.size()-1;
     while (l <= r) {
-        int m = (l + r) / 2;
-        if (nums[m] == target) 
+        int m = l + (r - l) / 2;
+        if (nums[m] == target) {
             return m;
-        else if (nums[m] < target)
+        } else if (nums[m] < target) {
             r = m - 1; 
-        else if (nums[m] > target)
+        } else if (nums[m] > target) {
             l = m + 1;
+        }
     }
     return -1;
 }
@@ -131,7 +123,7 @@ Bellman-Ford algorithm
 ---
 Used to find shortest path to all nodes from initial node. Supports negative edge weights. Time: O(V*E). 
 ~~~c++
-vector<int> bellman_ford(vector<tuple<int,int,int> > E, int V) { 
+vector<int> bellman_ford(vector<array<int, 3>> E, int V) { 
     // E[i] = {src, dst, weight}
     vector<int> distance(V, INT_MAX);
     // Starting node
@@ -152,10 +144,10 @@ Dijkstra's algorithm
 ---
 Used to find shortest path to all nodes from initial node. Does not support negative weights. O(V + E*log(E)).  
 ~~~c++
-vector<int> dijkstra(vector<vector<pair<int,int> > > graph) {
+vector<int> dijkstra(vector<vector<pair<int,int>>> graph) {
     vector<int> distance(graph.size(), INT_MAX);
     distance[0] = 0;
-    priority_queue<pair<int,int>, vector<pair<int, int> >, greater<pair<int, int> > > q;
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> q;
     // Where first = total distance, second = node
     // Priority queue sorts in increasing order 
     q.push({0,0});
@@ -163,7 +155,9 @@ vector<int> dijkstra(vector<vector<pair<int,int> > > graph) {
     while (!q.empty()) {
         int a = q.top().second;
         q.pop();
-        if (processed.find(a) != processed.end()) continue;
+        if (processed.find(a) != processed.end()) {
+            continue;
+        }
         processed.insert(a);
         for (pair<int,int>& edge : graph[a]) {
             int b = edge.first, w = edge.second;
@@ -181,16 +175,16 @@ Floyd-Warshall algorithm
 ---
 Used to find shortest paths from all nodes to all nodes that are represented in an adjacency list. Time: O(n<sup>3</sup>). 
 ~~~c++
-void floydwarshall(vector<vector<int> > graph) {
+vector<vector<int>> floydwarshall(vector<vector<int>> graph) {
+    vector<vector<int>> res = graph; 
     for (int k = 0; k < graph.size(); k++) {
         for (int i = 0; i < graph.size(); i++) {
             for (int j = 0; j < graph.size(); j++) {
-                graph[i][j] = min(graph[i][j],
-                                  graph[i][k] + graph[k][j]);
+                res[i][j] = min(res[i][j], res[i][k] + res[k][j]);
             }
         }
     }
-    return;
+    return res;
 }
 ~~~
 
@@ -203,13 +197,17 @@ vector<Node*> kahn(vector<Node*> graph) {
     vector<Node*> res;
     vector<Node*> fringe;
     // Populate num_connections
-    for (auto& n : graph)
-        for (auto& e : n->edges)
+    for (auto& n : graph) {
+        for (auto& e : n->edges) {
             num_connections[e]++;
+        }
+    }
     // Populate fringe 
-    for (auto it = num_connections.begin(); it != num_connections.end(); it++)
-        if (it.second == 0)
+    for (auto& it : num_connections) {
+        if (it.second == 0) {
             fringe.push_back(it.first);
+        }
+    }
     // Begin algorithm
     while (!fringe.empty()) {
         vector<Node*> new_fringe;
@@ -217,8 +215,9 @@ vector<Node*> kahn(vector<Node*> graph) {
             res.push_back(n);
             for (auto& e : n->edges) {
                 num_connections[e]--;
-                if (num_connections[e] == 0)
-                    new_fringe.push_back(e);
+                if (num_connections[e] == 0) {
+                    new_fringe.push_back(e);    
+                }
             }
         }
         fringe = new_fringe;
@@ -279,39 +278,6 @@ public:
         tree.resize(4*input.size());
         size = input.size()-1;
         createTree(input, 1, 0, size);
-    }
-};
-~~~
-
-Sparse table 
----
-Used to perform range queries on immutable arrays. Most range queries can be calculated in O(log(n)), but minimum and maximum queries are O(1). It is extremely powerful for this reason.
-~~~c++
-class Sparse {
-public:
-    vector<vector<int> > st;
-    vector<int> log;
-
-    Sparse(vector<int>& in) {
-        // Compute logarithm base 2
-        log.resize(in.size()+1);
-        log[1] = 0;
-        for (int i = 2; i <= in.size(); i++)
-            log[i] = log[i/2] + 1;
-        // Create 2D array of [in.size()][K+1] where K = log2(in.size())
-        st = vector<vector<int> >(in.size(), vector<int>(log[in.size()]+1));
-        // Initialize
-        for (int i = 0; i < in.size(); i++) 
-            st[i][0] = in[i];
-        // Compute queries
-        for (int j = 1; j <= log[in.size()]; j++) 
-            for (int i = 0; i + (1 << j) <= log[in.size()]; i++)
-                st[i][j] = min(st[i][j-1], st[i + (1 << (j-1))][j-1]);
-    }
-    
-    int get(int l, int r) {
-        int j = log[r - l + 1];
-        return min(st[l][j], st[r - (1 << j) + 1][j]);
     }
 };
 ~~~
@@ -394,149 +360,39 @@ long long rolling_hash(string const& s) {
 }
 ~~~
 
-Rabin-Karp algorithm
+Tarjan's algorithm
 ---
-Used to find all patterns `s` in a text `t`. Time: O(|s| + |t|).
+TODO
 ~~~c++
-vector<int> rabin_karp(string const& s, string const& t) {
-    // Same as polynomial rolling
-    const int p = 31;
-    const int m = 1e9 + 9;
-    int S = s.size(), T = t.size();
-    // Calculate all p values
-    vector<long long> p_pow(max(S, T));
-    for (int i = 1; i < (int)p_pow.size(); i++)
-        p_pow[i] = (p_pow[i-1] * p) % m;
 
-    // Calculate hashes at each spot inside of t
-    vector<long long> h(T + 1, 0);
-    for (int i = 0; i < T; i++)
-        h[i+1] = (h[i] + (t[i] - 'a' + 1) * p_pow[i]) % m;
-    // Calculate h_s, the hash of size s inside of t
-    long long h_s = 0;
-    for (int i = 0; i < S; i++)
-        h_s = (h_s + (s[i] - 'a' + 1) * p_pow[i]) % m;
-    // Find occurences
-    vector<int> o;
-    for (int i = 0; i + S - 1 < T; i++) {
-        long long cur_h = (h[i+S] + m - h[i]) % m;
-        if (cur_h == h_s * p_pow[i] % m)
-            o.push_back(i);
-    }
-    return o;
-}
-~~~
-
-Modified Tarjan's algorithm
----
-Used to find bridges. A bridge is an edge which makes the graph disconnected if removed. Time: O(V + E).
-~~~c++
-// Adjacency list of graph
-vector<vector<int> > graph;    
-
-vector<bool> visited;
-vector<int> tin, low;
-int timer;
-
-// p = parent in this case.
-void dfs(int v, int p = -1) {
-    visited[v] = true;
-    // tin is the "time in" of the node.
-    tin[v] = low[v] = timer++;
-    for (int to : graph[v]) {
-        if (to == p) continue;
-        // low keeps track of which strongly connected component
-        // the node is a part of.
-        else if (visited[to]) low[v] = min(low[v], tin[to]);
-        else {
-            dfs(to, v);
-            low[v] = min(low[v], low[to]);
-            if (low[to] > tin[v]) ;
-                // IT'S A BRIDGE, PROCESS 
-        }
-    }
-}
-
-void find_bridges() {
-    timer = 0;
-    visited.assign(graph.size(), false);
-    tin.assign(graph.size(), -1);
-    low.assign(graph.size(), -1);
-    for (int i = 0; i < graph.size(); i++)
-        if (!visited[i]) dfs(i);
-}
 ~~~
 
 Kruskal's algorithm
 ---
-Used to find the minimal spanning tree (MST). Time: O(E*log(V) + V<sup>2</sup>).
+Used to find the minimal spanning tree (MST). Note: Requires Union-find data structures. Time: O(E*log(V) + V<sup>2</sup>).
 ~~~c++
-// An edge struct that has an operator overload for <
-struct edge {
-    int u, v, weight;
-    bool operator<(edge const& other) {
-        return weight < other.weight;
+vector<vector<pair<int,int>>> kruskals(const vector<vector<pair<int,int>>>& graph) {
+    // Generate list of edges
+    vector<array<int, 3>> edges;
+    for (int i = 0; i < graph.size(); i++) {
+        for (auto& neighbor : graph[i]) {
+            edges.emplace(neighbor.second, neighbor.first, i);
+        }
     }
-};
 
-int n;
-vector<edge> edges;
-int cost = 0;
-vector<int> tree_id(n);
-vector<edge> result;
-for (int i = 0; i < n; i++) tree_id[i] = i;
-sort(edges.begin(), edges.end());
+    sort(edges.begin(), edges.end());
+    UnionFind uf(graph.size());
+    vector<vector<pair<int,int>>> res(graph.size());
 
-// Greedy algorithm
-for (edge e : edges) {
-    // If edge connects two components that are not connected
-    if (tree_id[e.u] != tree_id[e.v]) {
-        cost += e.weight;
-        result.push_back(e);
-        // Connect trees (components)
-        int old_id = tree_id[e.u], new_id = tree_id[e.v];
-        for (int i = 0; i < n; i++)
-            if (tree_id[i] == old_id)
-                tree_id[i] = new_id;
+    for (int i = 0; i < edges.size(); i++) {
+        if (uf.find(edges[i][1]) != uf.find(edges[i][2])) {
+            uf.unite(edges[i][1], edges[i][2]);
+            res[edges[i][1]].emplace_back(edges[i][2], edges[i][0]);
+            res[edges[i][2]].emplace_back(edges[i][1], edges[i][0]);
+        }
     }
+    return res;
 }
-~~~
-
-Booyer-Moore algorithm
----
-Used to find if there is an item that takes up the majority of the array. Time: O(n).
-~~~c++
-int booyer_moore(vector<int>& A) {
-    int candidate = 0;
-    int count = 0;
-    for (auto& item : A) {
-        if (count == 0)
-            candidate = item;
-        if (candidate == item)
-            count++;
-        else
-            count--;
-    }
-    count = 0;
-    for (auto& item : A)
-        if (item == candidate)
-            count++;
-    return (count > A.size() ? candidate : -1);
-}
-~
-Coordinate hashmap
----
-Hashmap in C++ that uses a std::pair as a key.
-~~~c++
-struct pair_hash {
-    template <class T1, class T2>
-    size_t operator () (const pair<T1,T2> &p) const {
-        auto h1 = hash<T1>{}(p.first);
-        auto h2 = hash<T2>{}(p.second);
-        return h1 ^ h2;  
-    }
-};
-unordered_map<pair<int,int>, int, pair_hash> map;
 ~~~
 
 No number of lines
@@ -545,7 +401,9 @@ Test if there's no more stdin available.
 ~~~c++
 while (true) {
     cin >> a >> b >> c;
-    if (cin.fail()) break;
+    if (cin.fail()) {
+        break;
+    }
     // Rest of your code...
 }
 ~~~
@@ -579,41 +437,16 @@ deque<int> q;
 int mininum = q.front();
 
 // Insert
-while (!q.empty() && q.back() > new_elem)
+while (!q.empty() && q.back() > new_elem) {
     q.pop_back();
+}
 q.push_back(new_elem);
 
 // Removal
-if (!q.empty() && q.front() == removal)
+if (!q.empty() && q.front() == removal) {
     q.pop_front();
-~~~
-
-Method 2: Use two stacks.
-~~~c++
-stack<pair<int,int> > s1, s2;
-
-// Find min
-if (s1.empty() || s2.empty())
-    minimum = s1.empty() ? s2.top().second : s1.top().second;
-else
-    minimum = min(s1.top().second, s2.top().second);
-
-// Insertion
-minimum = s1.empty() ? new_elem : min(s1.top().second, new_elem));
-s1.push({new_elem, minimum});
-
-// Removal
-if (s2.empty()) {
-    while (!s1.empty()) {
-        int elem = s1.top().first;
-        s1.pop();
-        int minimum = s2.empty() ? elem : min(elem, s2.top().second);
-        s2.push({elem, minimum});
-    }
 }
-int remove = s2.top().first;
-s2.pop();
-~~~ 
+~~~
 
 Bezout's identity
 ---
