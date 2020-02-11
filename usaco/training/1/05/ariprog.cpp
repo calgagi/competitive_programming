@@ -25,38 +25,45 @@ int main() {
     int n, m;
     cin >> n >> m;
     
-    set<int> bisquares;
+    const int MAX_M = 250;
+    const int MAX = MAX_M*MAX_M*2;
+
+    bool is_bisquare[MAX+1] = {0};
+
     for (int i = 0; i <= m; i++) {
         for (int j = i; j <= m; j++) {
-            bisquares.insert(i*i + j*j);
+            is_bisquare[i*i + j*j] = 1;
         }
     }
 
     vector<ii> ans;
-    
-    for (auto start = bisquares.begin(); start != bisquares.end(); start++) {
-        auto next = start;
-        next++;
-        while (next != bisquares.end()) {
-            int diff = *next  - *start;
-            int i = 1, ddiff = diff;
-            for (; i < n; i++) {
-                if (!bisquares.count(ddiff+*start)) {
+
+    for (int i = 0; i <= MAX; i++) {
+        if (!is_bisquare[i]) {
+            continue;
+        }
+        int diff = MAX - i;
+        for (int j = 1; j <= ceil((double)diff / (double)n); j++) {
+            int k;
+            for (k = 1; k < n && i+j*k <= MAX; k++) {
+                if (!is_bisquare[i + j*k]) {
                     break;
                 }
-                ddiff += diff;
             }
-            if (i == n) {
-                ans.emplace_back(diff, *start);
+            if (k == n) {
+                ans.push_back({j, i});
             }
-            next++;
         }
     }
-                
-    sort(ans.begin(), ans.end());
-
-    for (auto& p : ans) {
-        cout << p.second << " " << p.first << endl;
+            
+            
+    if (ans.size() == 0) {
+        cout << "NONE" << endl;
+    } else {
+        sort(ans.begin(), ans.end());
+        for (auto& p : ans) {
+            cout << p.second << " " << p.first << endl;
+        }
     }
 
     return 0;
