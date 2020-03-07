@@ -10,28 +10,35 @@ using ll = long long;
 using ull = unsigned long long;
 using ii = pair<int, int>;
 
-const int MAX_N = 1e5+1;
-ll dp[MAX_N][2];
-bool visited[MAX_N] = {0};
-int n, m;
+const int MAX_N = 1e5 + 2;
 vector<vector<pair<int,ll>>> graph;
 
-void dfs(int cur) {
-    if (visited[cur]) {
-        return;
-    }
-    visited[cur] = 1;
-    for (auto& e : graph[cur]) {
-        dfs(e.first);
-        if (dp[e.first][0] == LLONG_MAX && dp[e.first][1] == LLONG_MAX) {
+ll dijkstra() {
+    bool visited[MAX_N][2] = {0};
+    priority_queue<tuple<ll,int,bool>, vector<tuple<ll,int,bool>>, greater<tuple<ll,int,bool>>> q;
+    q.push({0, 0, 0});
+    while (!q.empty()) {
+        ll dist;
+        int cur;
+        bool coupon;
+        tie(dist, cur, coupon) = q.top();
+        q.pop();
+        if (visited[cur][coupon]) {
             continue;
         }
-        dp[cur][0] = min(dp[cur][0], dp[e.first][0] + e.second);
-        dp[cur][1] = min({dp[cur][1], dp[e.first][0] + e.second/2, dp[e.first][1] + e.second});
+        visited[cur][coupon] = 1;
+        if (cur == (int)graph.size()-1) {
+            return dist;
+        }
+        for (auto& edge : graph[cur]) {
+            q.push({dist+edge.second, edge.first, coupon});
+            if (!coupon) {
+                q.push({dist+edge.second/2, edge.first, 1});
+            }
+        }
     }
-    return;
+    return -1;
 }
-
 
 int main() {
     ios_base::sync_with_stdio(false);  
@@ -39,25 +46,17 @@ int main() {
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
     // freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); 
     
-    for (int i = 0; i < MAX_N; i++) {
-        dp[i][0] = dp[i][1] = LLONG_MAX;
-    }
-
+    int n, m;
     cin >> n >> m;
-    dp[n-1][0] = dp[n-1][1] = 0;
-    visited[n-1] = 1;
     graph.resize(n);
-
     for (int i = 0; i < m; i++) {
         int a, b, c;
         cin >> a >> b >> c;
         a--, b--;
-        graph[a].push_back({b,c});
+        graph[a].push_back({b, c});
     }
 
-    dfs(0); 
-
-    cout << min(dp[0][0], dp[0][1]) << endl;
+    cout << dijkstra() << endl;
 
     return 0;
 }
