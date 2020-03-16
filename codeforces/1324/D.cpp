@@ -10,20 +10,6 @@ using ll = long long;
 using ull = unsigned long long;
 using ii = pair<int, int>;
 
-ll binary_search(vector<int>& s, int tar) {
-    int l = 0, r = s.size()-1, res = 0;
-    while (l <= r) {
-        int m = l + (r-l) / 2;
-        if (tar > s[m]) {
-            res = m;
-            l = m+1;
-        } else {
-            r = m-1;
-        }
-    }
-    return tar>=s[0]?0:res+1;
-}
-
 int main() {
     ios_base::sync_with_stdio(false);  
     cin.tie(NULL);
@@ -40,15 +26,19 @@ int main() {
         cin >> B[i];
     }
 
-    vector<int> diff(n);
+    vector<int> C(n);
     for (int i = 0; i < n; i++) {
-        diff[i] = A[i] - B[i];
+        C[i] = A[i] - B[i];
     }
 
+    sort(C.begin(), C.end()); 
     ll res = 0;
-    sort(diff.begin(), diff.end(), greater<int>());
     for (int i = 0; i < n; i++) {
-        res += binary_search(diff, B[i]-A[i]);
+        if (C[i] >= 0) {
+            continue;
+        }
+        int pos = lower_bound(C.begin(), C.end(), -c[i]+1) - C.begin();
+        res += i - pos;
     }
 
     cout << res << endl;
