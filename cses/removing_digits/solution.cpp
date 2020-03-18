@@ -16,23 +16,19 @@ int main() {
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
     // freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); 
     
-    ll n;
+    int n;
     cin >> n;
-    stack<ll> s;
-    s.push(1LL);
-    ll ans = 0;
-    while (!s.empty()) {
-        ll x = s.top();
-        s.pop();
-        if (x > n) {
-            continue;
+    int a = 0;
+    while (n) {
+        int m = 0, x = n;
+        while (x) {
+            m = max(m, x % 10);
+            x /= 10;
         }
-        ans++;
-        s.push(x*10);
-        s.push(x*10+1);
+        n -= m;
+        a++;
     }
-    cout << ans << endl;
-
+    cout << a << endl;
 
     return 0;
 }

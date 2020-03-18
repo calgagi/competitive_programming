@@ -16,23 +16,24 @@ int main() {
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
     // freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); 
     
-    ll n;
-    cin >> n;
-    stack<ll> s;
-    s.push(1LL);
-    ll ans = 0;
-    while (!s.empty()) {
-        ll x = s.top();
-        s.pop();
-        if (x > n) {
-            continue;
-        }
-        ans++;
-        s.push(x*10);
-        s.push(x*10+1);
+    const int MOD = 1e9 + 7;
+    
+    int x, n;
+    cin >> n >> x;
+    vector<int> coins(n);
+    for (auto& c : coins) {
+        cin >> c;
     }
-    cout << ans << endl;
 
+    vector<int> dp(x+1, 0);
+    dp[0] = 1;
+    for (int i = 1; i <= x; i++) {
+        for (auto& c : coins) {
+            dp[i] = (dp[i] + (i-c >= 0 ? dp[i-c] : 0)) % MOD;
+        }
+    }
+
+    cout << dp[x] << endl;
 
     return 0;
 }
