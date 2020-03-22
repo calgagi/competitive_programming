@@ -3,11 +3,10 @@ ID: calgagi1
 LANG: C++
 TASK: 
 */
-
-// Calvin Gagliano 
-// @calgagi
-// Oregon State University
-// Competitive Programming Template
+/* 
+ * author: calgagi
+ *         Calvin Gagliano
+ */
 #include <bits/stdc++.h>
 
 using namespace std;
