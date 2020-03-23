@@ -11,6 +11,23 @@ using ull = unsigned long long;
 using ii = pair<int, int>;
 
 void solve() {
+    int n, b;
+    cin >> n >> b;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    sort(a.begin(), a.end());
+    int i = 0;
+    for (; i < n; i++) {
+        b -= a[i];
+        if (b < 0) {
+           break; 
+        }
+    } 
+    
+    cout << i;
 
     return;
 }
@@ -26,6 +43,7 @@ int main() {
     for (int i = 0; i < t; i++) {
         cout << "Case #" << i+1 << ": ";
         solve();
+        cout << endl;
     }
 
     return 0;
