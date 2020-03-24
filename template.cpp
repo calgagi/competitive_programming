@@ -6,9 +6,10 @@
 
 using namespace std;
 
-using ll = long long;
-using ull = unsigned long long;
-using ii = pair<int, int>;
+#define ll long long
+#define ull unsigned long long
+#define ii pair<int, int>
+#define ar array
 
 int main() {
     ios_base::sync_with_stdio(false);  
