@@ -20,6 +20,18 @@ int main() {
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
     // freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); 
     
-
+    int N;
+    cin >> N;
+    while (N--) {
+        dd n, l, d, g;
+        cin >> n >> l >> d >> g;
+        dd ans = n * pow(l,2) * ((cos((dd)M_PI/n)/sin((dd)M_PI/n)) / (dd)4);
+        dd r = g*d;
+        // rectangles
+        ans += n * r * l; 
+        // circle
+        ans += (dd) M_PI * pow(r,2);
+        printf("%.*Lf\n", 20, ans);
+    }
     return 0;
 }
