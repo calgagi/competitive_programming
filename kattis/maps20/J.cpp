@@ -53,7 +53,9 @@ int main() {
         avg += ans[i];
     }
     avg /= (dd) n;
+    cout << fixed << showpoint << setprecision(20);
     printf("%.*Lf\n",20,avg);
+    cout << avg << endl;
 
     return 0;
 }
