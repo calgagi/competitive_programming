@@ -22,6 +22,8 @@ int main() {
     
     int N;
     cin >> N;
+    cout << fixed << showpoint << setprecision(20);
+
     while (N--) {
         dd n, l, d, g;
         cin >> n >> l >> d >> g;
@@ -31,7 +33,7 @@ int main() {
         ans += n * r * l; 
         // circle
         ans += (dd) M_PI * pow(r,2);
-        printf("%.*Lf\n", 20, ans);
+        cout << ans << endl;
     }
     return 0;
 }

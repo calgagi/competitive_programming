@@ -21,6 +21,7 @@ int main() {
     // freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); 
     
     const dd M = 0.8, F = 0.2;
+    cout << fixed << showpoint << setprecision(20);
 
     int n;
     cin >> n;
@@ -34,7 +35,8 @@ int main() {
         full += s[i] * pow(M, i);
     }
     full *= (dd) F;
-    printf("%.*Lf\n",20,full);
+    cout << full << endl;
+
     for (int i = 0; i < n; i++) {
         ans[i] = 0;
         dd m = 1;
@@ -53,8 +55,7 @@ int main() {
         avg += ans[i];
     }
     avg /= (dd) n;
-    cout << fixed << showpoint << setprecision(20);
-    printf("%.*Lf\n",20,avg);
+
     cout << avg << endl;
 
     return 0;

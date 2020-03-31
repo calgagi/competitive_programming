@@ -20,7 +20,6 @@ vector<vector<int>> components;
 int cc = 0;
 vector<int> order;
 vector<int> which_scc;
-ll ans = 0;
 
 void dfs(int u) {
     used[u] = 1;
@@ -63,10 +62,12 @@ int main() {
     }
 
     // Algorithm:
-    // 1. Find SCCs
+    // 1. Find SCCs 
     // 2. Topological sort, keep track of how many vertices are before each SCC
-    // 3. Answer = For each SCC, sum of n - SIZE_cur_scc - SIZE_before_scc - DEGREE_out_cur_scc
+    // 3. Answer = For each SCC, sum (below_nodes * size_of_SCC) - out_degree_of_SCC 
 
+
+    // 1: kosaraju's
     used.assign(n, 0);
     for (int i = 0; i < n; i++) {
         if (!used[i]) {
@@ -82,14 +83,60 @@ int main() {
             cc++;
         } 
     }
-    
-    ll sum = n;
-    used.assign(cc, 0);
+
+    vector<set<int>> meta(cc);
+    vector<int> meta_edges(cc,0);
     for (int i = 0; i < cc; i++) {
-        if (!used[i]) {
-            dfs3(i, sum);
+        for (auto& node : components[i]) {
+            for (auto& edge : g[node]) {
+                if (which_scc[edge] != i) {
+                    meta[i].insert(which_scc[edge]);
+                    meta_edges[i]++;
+                }
+            }
         }
     }
+
+    /* for (auto& s : meta) { */
+    /*     cout << s.size() << endl; */
+    /*     for (auto& e : s) { */
+    /*         cout << e << " "; */
+    /*     } */
+    /*     cout << endl; */
+    /* } */
+
+    ll ans = 0;
+    ll cur = n;
+
+    // 2: kahn's
+    vector<int> fringe, counts(cc,0); 
+    for (int i = 0; i < cc; i++) {
+        for (auto& edge : meta[i]) {
+            counts[edge]++;
+        }
+    }
+    for (int i = 0; i < cc; i++) {
+        if (counts[i] == 0) {
+            fringe.push_back(i);
+        }
+    }
+
+    while (!fringe.empty()) {
+        vector<int> new_fringe;
+        for (int i = 0; i < (int) fringe.size(); i++) {
+            for (auto& edge : meta[fringe[i]]) {    
+                counts[edge]--;
+                if (counts[edge] == 0) {
+                    new_fringe.push_back(edge);
+                }
+            }
+            cur -= components[fringe[i]].size();
+            ans += (cur * components[fringe[i]].size()) - meta_edges[fringe[i]];
+        }
+        fringe = new_fringe;
+    }
+
+    cout << ans << endl;
 
     return 0;
 }
