@@ -50,51 +50,23 @@ int gcd(int a, int b) {
 }
 ~~~ 
 
-Least common multiple
----
-Used to find the least common multiple. Requires Euclidean algorithm.
-~~~c++
-int lcm(int a, int b) {
-    return (a * b) / gcd(a, b);
-}
-~~~
-
-isPrime
----
-Used to find if a number is prime. Time: O(sqrt(n)).
-~~~c++
-bool isPrime (int n) {
-    if (n <= 1) return false;
-    if (n == 2) return true;
-    if (n % 2 == 0) return false;
-    int m = sqrt(n);
-
-    for (int i = 3; i <= m; i += 2)
-        if (n % i == 0)
-            return false;
-    return true;
-}
-~~~
-
 The Sieve of Eratosthenes
 ---
 Used to find prime numbers in range. Time: O(n*log(log(n))).
 ~~~c++
 bool* sieve(int n) {
-    bool* prime = new bool[n+1];
-    memset(prime, true, sizeof(bool)*(n+1));
-    prime[0] = false;
-    prime[1] = false;
+    vector<bool> prime(n+1, 1);
+    prime[0] = prime[1] = 0;
     int m = sqrt(n);
 
     for (int i = 2; i <= m; i++) {
         if (prime[i]) {
-            for (int k = i * i; k <= n; k += i) {
-                prime[k] = false;
+            for (int k = i+i; k <= n; k += i) {
+                prime[k] = 0;
             }
         }
     }
-    
+
     return prime;
 }
 ~~~
@@ -455,7 +427,6 @@ For non-zero integers `a` and `b`, let `d` be equal to `gcd(a, b)`. Then, there 
 Binomial coefficients
 ---
 Calculate the number of ways to select a set of `k` elements from `n` different elements without taking into account the order of the elements (number of unordered sets). Equivalent to `n` choose `k` = (`n`!) / (`k`! (`n`-`k`)!).
-![Properties](https://ibb.co/mqnC6wm)
 
 Stars and bars
 ---
