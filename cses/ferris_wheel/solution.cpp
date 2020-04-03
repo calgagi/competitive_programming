@@ -27,21 +27,21 @@ int main() {
         cin >> i;
     }
 
-    sort(p.begin(), p.end());
-    priority_queue<int> q;
-    q.push(x-p[n-1]);
-    int ans = 1;
-    for (int i = n-2; i >= 0; i--) {
-        if (p[i] <= q.top()) {
-            ll a = q.top();
-            q.pop();
-            q.push(a-p[i]);
-        } else {
-            q.push(x-p[i]);
+    multiset<int> open;
+    sort(p.begin(), p.end(), greater<int>());
+
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        auto o = open.lower_bound(p[i]);
+        if (o == open.end()) {
             ans++;
+            open.insert(x-p[i]);
+        } else {
+            int a = *o;
+            open.erase(o);
         }
     }
-
+            
     cout << ans << endl;
 
     return 0;
