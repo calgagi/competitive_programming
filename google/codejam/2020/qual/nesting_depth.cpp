@@ -10,8 +10,35 @@ using namespace std;
 #define ull unsigned long long
 #define ii pair<int, int>
 #define ar array
+#define f first
+#define s second
+#define dd long double
 
 void solve() {
+    string in;
+    cin >> in;
+
+    int n = in.length();
+    int cur = 0;
+    string res = "";
+    for (int i = 0; i < n; i++) {     
+        int a = in[i]-'0';
+        while (cur < a) {
+            res += '(';
+            cur++;
+        }
+        while (cur > a) {
+            res += ')';
+            cur--;
+        }
+        res += in[i];
+    }
+    while (cur != 0) {
+        res += ')';
+        cur--;
+    }
+
+    cout << res << endl;
 
     return;
 }
