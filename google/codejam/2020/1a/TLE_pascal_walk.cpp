@@ -50,7 +50,7 @@ bool dfs(int i, int j, ll s, int p) {
             return 1;
         } 
     }
-    visited[i][j] = 1;
+    visited[i][j] = 0;
     return 0;
 }
 
@@ -85,3 +85,4 @@ int main() {
 
     return 0;
 }
+
