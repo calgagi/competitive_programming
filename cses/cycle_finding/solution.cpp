@@ -13,7 +13,9 @@ using ii = pair<int, int>;
 const int mxN = 2500+2;
 ll dist[mxN] = {LLONG_MAX};
 int pred[mxN];
-vector<tuple<int,int,ll>> edge_list;
+vector<vector<ii>> g;
+vector<array<int,3>> edge_list;
+bool visited[mxN] = {0};
 
 void find_cycle(int u) {
     vector<int> path;
@@ -35,9 +37,22 @@ void find_cycle(int u) {
     cout << endl;
     return;
 }
-        
+
+void build(int u) {
+    if (visited[u]) {
+        return;
+    }
+    visited[u] = 1;
+    for (auto& e : g[u]) {
+        edge_list.push_back({u, e.first, e.second});
+        build(e.first);
+    }
+    return;
+}    
 
 bool bellman_fords(int s, int n) {
+    edge_list.clear();
+    build(s);
     for (int i = 0; i < mxN; i++) {
         dist[i] = LLONG_MAX;
         pred[i] = -1;
@@ -45,9 +60,7 @@ bool bellman_fords(int s, int n) {
     dist[s] = 0;
     for (int i = 0; i < n; i++) {
         for (auto& edge : edge_list) {
-            int u, v;
-            ll d;
-            tie(u,v,d) = edge;
+            int u =  edge[0], v = edge[1], d = edge[2];
             if (dist[u] != LLONG_MAX && dist[v] > dist[u]+d) {
                 dist[v] = dist[u]+d;
                 pred[v] = u;
@@ -57,10 +70,8 @@ bool bellman_fords(int s, int n) {
     
     // detect cycle
     for (auto& edge : edge_list) {
-        int u, v;
-        ll d;
-        tie(u,v,d) = edge;
-        if (dist[u] != LLONG_MAX && dist[v] > dist[u]+d) {
+        int u =  edge[0], v = edge[1], d = edge[2];
+        if (dist[u] != LLONG_MAX && dist[v] > dist[u] + d) {
             cout << "YES" << endl;
             pred[v] = u;
             find_cycle(v);
@@ -79,11 +90,12 @@ int main() {
     
     int n, m;
     cin >> n >> m;
+    g.resize(n);
     for (int i = 0; i < m; i++) {
         int a, b, c;
         cin >> a >> b >> c;
         a--, b--;
-        edge_list.push_back({a,b,c});
+        g[a].push_back({b, c});
     }
     for (int i = 0; i < n; i++) {
         if (dist[i] == LLONG_MAX) {
