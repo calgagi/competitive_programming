@@ -14,28 +14,36 @@ using namespace std;
 #define s second
 #define dd long double
 
+void solve() {
+    int n, k;
+    cin >> n >> k;
+
+    int gap = n-1;
+
+    int cm = (k/gap)*n;
+
+    int num = (k/gap)*gap;
+    
+    if (num >= k) {
+        num++;
+    }
+
+    cout << cm + (k - num) << endl;    
+
+    return;
+}
+
 int main() {
     ios_base::sync_with_stdio(false);  
     cin.tie(NULL);
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
     // freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); 
     
-    int n;
-    cin >> n;
-    vector<ll> A(n);
-    for (auto& i : A) {
-        cin >> i;
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
     }
-
-    map<ll,ll> past;
-    ll ans = 0;
-    for (int j = 0; j < n; j++) {
-        ll search = (j+1) - A[j], x = A[j]+(j+1);
-        ans += past[search];
-        past[x]++;
-    }
-
-    cout << ans << endl;
 
     return 0;
 }
