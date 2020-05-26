@@ -15,7 +15,12 @@ using namespace std;
 #define dd long double
 
 void solve() {
+    ll x1, y1, x2, y2;
+    cin >> x1 >> y1 >> x2 >> y2;
 
+    ll dx = x2-x1, dy = y2-y1;
+
+    cout << (dx*dy)+1 << endl;
 
     return;
 }
@@ -25,7 +30,7 @@ int main() {
     cin.tie(NULL);
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
     
-    int t = 1;
+    int t;
     cin >> t;
     while (t--) {
         solve();

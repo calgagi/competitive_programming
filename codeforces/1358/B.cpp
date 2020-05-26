@@ -15,7 +15,25 @@ using namespace std;
 #define dd long double
 
 void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (int& x : a) {
+        cin >> x;
+    }
+    
+    sort(a.begin(), a.end());
 
+    int ans = 1, cur = 0;
+    for (int i = 0; i < n; i++) {
+        cur++;
+        if (cur+ans-1 >= a[i]) {
+            ans += cur;
+            cur = 0;
+        }
+    }
+
+    cout << ans << endl;
 
     return;
 }
@@ -25,7 +43,7 @@ int main() {
     cin.tie(NULL);
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
     
-    int t = 1;
+    int t;
     cin >> t;
     while (t--) {
         solve();
