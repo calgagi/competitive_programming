@@ -26,7 +26,7 @@ int main() {
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
     
     int t = 1;
-    cin >> t;
+    /* cin >> t; */
     while (t--) {
         solve();
     }
