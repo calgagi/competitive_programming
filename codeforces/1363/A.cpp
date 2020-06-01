@@ -1,11 +1,6 @@
 /*
-ID: calgagi1
-LANG: C++
-TASK: 
-*/
-/* 
  * author: calgagi
- *         Calvin Gagliano
+ *         Calvin Gagliano 
  */
 #include <bits/stdc++.h>
 
@@ -20,6 +15,26 @@ using namespace std;
 #define dd long double
 
 void solve() {
+    int n, x;
+    cin >> n >> x;
+
+    int even = 0, odd = 0;
+    vector<int> a(n);
+    for (int& z : a) {
+        cin >> z;
+        if ((z & 1)) {
+            odd++;
+        } else {
+            even++;
+        }
+    } 
+
+    if ((x == n && odd % 2 == 0) || !odd || (x % 2 == 0 && !even)) {
+        cout << "No" << endl;
+        return;
+    }
+
+    cout << "Yes" << endl;
 
     return;
 }
@@ -28,10 +43,9 @@ int main() {
     ios_base::sync_with_stdio(false);  
     cin.tie(NULL);
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
-    FILE *IN = freopen(".in", "r", stdin), *OUT = freopen(".out", "w", stdout); 
-
+    
     int t = 1;
-    /* cin >> t; */
+    cin >> t;
     while (t--) {
         solve();
     }
