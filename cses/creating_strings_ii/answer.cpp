@@ -15,12 +15,32 @@ using namespace std;
 #define dd long double
 
 const ll MOD = 1e9+7, MAXN = 1e6;
-ll factorial[
+ll factorial[MAXN+1];
 
 void preprocess() {
+    factorial[1] = factorial[0] = 1;
+    for (ll i = 2; i <= MAXN; i++) {
+        factorial[i] = (factorial[i-1] * i) % MOD;
+    }
+    return;
+}
 
+ll inverse(ll a, int p) {
+    ll ans = 1;
+    ll b = 1;
+    while (p) {
+        if ((p & 1)) {
+            ans = (ans * a) % MOD;
+        }
+        a = (a * a) % MOD;
+        p >>= 1;
+    }
+    return ans;
+}
 
 ll choose(ll n, ll k) { 
+    return ((factorial[n] * inverse(factorial[k], MOD-2) % MOD) * inverse(factorial[n-k], MOD-2)) % MOD;
+}
 
 void solve() {
     string s;
@@ -32,7 +52,13 @@ void solve() {
         cnt[s[i]-'a']++;
     }
 
-    
+    ll ans = 1;
+    for (int i = 0; n && i < 26; i++) {
+        ans = (ans * choose(n, cnt[i])) % MOD;
+        n -= cnt[i];
+    } 
+
+    cout << ans << endl;
 
     return;
 }
