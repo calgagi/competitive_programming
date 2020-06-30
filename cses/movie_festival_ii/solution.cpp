@@ -15,35 +15,34 @@ using namespace std;
 #define dd long double
 
 void solve() {
-    int N;
-    cin >> N;
-
-    ll M = 0, s = 0;
-    vector<int> A(N);
-    for (int& a : A) {
-        cin >> a;
-        s += a;
-        M = max(s, M);
+    int N, K;
+    cin >> N >> K;
+    vector<ii> movies(N);
+    for (ii& movie : movies) {
+        cin >> movie.f >> movie.s;
     }
 
-    vector<ll> pre(N);
-    for (int i = 0; i < N; i++) {
-        pre[i] = (i ? pre[i-1] : 0LL) + A[i];
+    sort(movies.begin(), movies.end(), [&](const ii& a, const ii& b) {
+        return a.s < b.s;
+    });
+
+    multiset<int, greater<int>> q;
+    for (int i = 0; i < K; i++) {
+        q.insert(0);
     }
 
-    ll ans = 0;
-    map<ll,ll> seen;
-    seen[0] = 1;
-
-    for (int i = 0; i < N; i++) {
-        for (ll x = 0; x <= M; x += N) {
-            ans += seen[pre[i] - x];
+    int ans = 0;
+    for (ii& movie : movies) {
+        auto person = q.lower_bound(movie.f);
+        if (person != q.end()) {
+            q.erase(person);
+            q.insert(movie.s);
+            ans++;
         }
-        seen[pre[i]]++;
     }
 
     cout << ans << endl;
-            
+
     return;
 }
 
