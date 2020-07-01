@@ -14,51 +14,58 @@ using namespace std;
 #define s second
 #define dd long double
 
-const int MAX_N = 5005;
-const ll DEFAULT_VAL = -1e9-7;
-ar<ll,2> dp[MAX_N][MAX_N][2];
-ll a[MAX_N];
-
-const ar<ll,2> comp = {DEFAULT_VAL,DEFAULT_VAL};
-
-ar<ll,2> recurse(int i, int j, bool turn) {
-    if (i > j) {
-        return {0, 0};
-    }
-    if (dp[i][j][turn] != comp) {
-        return dp[i][j][turn];
+void solve() {
+    int N;
+    cin >> N;
+    vector<ll> A(N);
+    for (ll& a : A) {
+        cin >> a;
     }
 
-    ar<ll,2> left = recurse(i+1, j, !turn);
-    ar<ll,2> right = recurse(i, j-1, !turn);
-    left[turn] += a[i];
-    right[turn] += a[j];
-    dp[i][j][turn] = (left[turn] > right[turn] ? left : right);
+    vector<vector<pair<ll,ll>>> dp(N+1, vector<pair<ll,ll>>(N+1));
+    for (int i = 0; i < N; i++) {
+        dp[i][1] = ((N & 1) ? make_pair(A[i], 0LL) : make_pair(0LL, A[i]));
+    }
 
-    return dp[i][j][turn];
+    bool turn = !(N & 1);
+    for (int length = 2; length <= N; length++) {
+        for (int i = length; i <= N; i++) {
+            if (!turn) {
+                if (dp[length-1][i].s + A[i-length] < dp[length-1][i-1].s + A[i-1]) {
+                    dp[length][i] = dp[length-1][i-1];
+                    dp[length][i].s += A[i-1];
+                } else {
+                    dp[length][i] = dp[length-1][i];
+                    dp[length][i].s += A[i-length];
+                }
+            } else {
+                if (dp[length-1][i].f + A[i-length] < dp[length-1][i-1].f + A[i-1]) {
+                    dp[length][i] = dp[length-1][i-1];
+                    dp[length][i].f += A[i-1];
+                } else {
+                    dp[length][i] = dp[length-1][i];
+                    dp[length][i].f += A[i-length];
+                }
+            }
+        }
+        turn = !turn;
+    }
+
+    cout << dp[N][N].f << endl;
+        
+    return;
 }
 
 int main() {
     ios_base::sync_with_stdio(false);  
     cin.tie(NULL);
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
-    // freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); 
     
-    int n;
-    cin >> n;
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-    } 
-
-    for (int i = 0; i < MAX_N; i++) {
-        for (int j = 0; j < MAX_N; j++) {
-            dp[i][j][0] = dp[i][j][1] = comp;
-        }
+    int t = 1;
+    /* cin >> t; */
+    while (t--) {
+        solve();
     }
-
-    ar<ll,2> ans = recurse(0, n-1, 0);
-
-    cout << ans[0] << endl;
 
     return 0;
 }

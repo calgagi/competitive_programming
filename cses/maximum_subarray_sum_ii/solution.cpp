@@ -32,11 +32,10 @@ void solve() {
     ll ans = LLONG_MIN;
     for (int i = A; i <= N; i++) {
         range.insert(prefix[i-A]);
-        if (i-B >= 0) {
-            auto it = range.find(prefix[i-B]);
+        if (i-B-1 >= 0) {
+            auto it = range.find(prefix[i-B-1]);
             range.erase(it);
         }
-        cout << prefix[i] << " " << *range.begin() << endl;
         ans = max(ans, prefix[i] - *range.begin());
     }
 

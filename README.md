@@ -7,4 +7,3 @@ A collection of solutions to competitive programming problems.
 * Kattis: [@calgagi](https://open.kattis.com/users/calgagi)
 * CSES: [@calgagi](https://cses.fi/user/8777)
 * HackerRank: [@calgagi](https://www.hackerrank.com/calgagi)
-* LeetCode: [@calgagi](https://leetcode.com/calgagi/)
