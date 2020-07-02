@@ -14,31 +14,30 @@ using namespace std;
 #define s second
 #define dd long double
 
-const ll M = 1e9 + 7;
-
 void solve() {
-    ll N;
+    int N;
     cin >> N;
-
-    ll sum = N * (N+1) / 2;
-    if (sum % 2 == 1) {
-        cout << 0 << endl;
-        return;
+    vector<int> A(N);
+    for (int& a : A) {
+        cin >> a;
     }
 
-    sum /= 2LL;
-
-    vector<ll> dp(sum+1, 0);
-    dp[1] = 1;
-    for (int i = 2; i <= N; i++) {
-        vector<ll> new_dp = dp;
-        for (int j = 0; j <= sum - i; j++) {
-            new_dp[j+i] = (new_dp[j+i] + dp[j]) % M;
+    vector<int> streaks(N, INT_MAX);
+    int sz = 0;
+    streaks[0] = INT_MIN;
+    for (int i = 0; i < N; i++) {
+        for (int j = sz; j >= 0; j--) {
+            if (streaks[j] < A[i]) {
+                if (j == sz) {
+                    sz++;
+                }
+                streaks[j+1] = min(A[i], streaks[j+1]);
+                break;
+            }
         }
-        dp = new_dp;
     }
 
-    cout << dp[sum] << endl;
+    cout << sz << endl;
 
     return;
 }
