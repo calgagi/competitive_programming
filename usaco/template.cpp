@@ -11,13 +11,14 @@ TASK:
 
 using namespace std;
 
-#define ll long long
-#define ull unsigned long long
+#define long long long
+#define double double double
+#define ulong unsigned long long
 #define ii pair<int, int>
+#define ll pair<long long, long long>
 #define ar array
 #define f first
 #define s second
-#define dd long double
 
 void solve() {
 
