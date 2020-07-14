@@ -10,7 +10,7 @@ using namespace std;
 #define double double double
 #define ulong unsigned long long
 #define ii pair<int, int>
-#define ll pair<long long, long long>
+#define ll pair<long, long>
 #define ar array
 #define f first
 #define s second
