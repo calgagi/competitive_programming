@@ -6,12 +6,12 @@
 
 using namespace std;
 
-#define long long long
-#define double double double
-#define ulong unsigned long long
-#define ii pair<int, int>
-#define ll pair<long, long>
-#define ar array
+#define ld long double
+#define ull unsigned long long
+#define ll long long
+#define pii pair<int, int>
+#define pll pair<ll, ll>
+#define pdd pair<ld, ld>
 #define f first
 #define s second
 
