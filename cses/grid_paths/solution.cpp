@@ -1,44 +1,78 @@
-// Calvin Gagliano 
-// @calgagi
-// Oregon State University
-// Competitive Programming Template
+/*
+ * author: calgagi
+ *         Calvin Gagliano 
+ */
 #include <bits/stdc++.h>
 
 using namespace std;
+#define ll long long
+#define ld long double
 
-using ll = long long;
-using ull = unsigned long long;
-using ii = pair<int, int>;
+string path;
+const int n = 7, w = 48;
+bool grid[n][n];
+int ans = 0;
+int count = 0;
+
+bool empty_square(int row, int col) {
+    return row >= 0 && row < n && col >= 0 && col < n && !grid[row][col];
+}
+
+void dfs(int row, int col, int where) {
+    if (row == 6 && col == 0) {
+        ans += where == 48;
+        return;
+    }
+
+    grid[row][col] = 1;
+
+    if (path[where] == '?' || path[where] == 'D') {
+        if (empty_square(row + 1, col) && !(!empty_square(row + 2, col) && empty_square(row + 1, col - 1) && empty_square(row + 1, col + 1))) {
+            dfs(row + 1, col, where + 1);
+        }
+    }
+    if (path[where] == '?' || path[where] == 'U') {
+        if (empty_square(row - 1, col) && !(!empty_square(row - 2, col) && empty_square(row - 1, col - 1) && empty_square(row - 1, col + 1))) {
+            dfs(row - 1, col, where + 1);
+        }
+    } 
+    if (path[where] == '?' || path[where] == 'R') {
+        if (empty_square(row, col + 1) && !(!empty_square(row, col + 2) && empty_square(row + 1, col + 1) && empty_square(row - 1, col + 1))) {
+            dfs(row, col + 1, where + 1);
+        }
+    }
+    if (path[where] == '?' || path[where] == 'L') {
+        if (empty_square(row, col - 1) && !(!empty_square(row, col - 2) && empty_square(row + 1, col - 1) && empty_square(row - 1, col - 1))) {
+            dfs(row, col - 1, where + 1);
+        }
+    }
+
+    grid[row][col] = 0;
+
+    return;
+}
+
+void solve() {
+    cin >> path;
+
+    dfs(0, 0, 0);
+    cout << ans << endl;
+
+    return;
+}
 
 int main() {
     ios_base::sync_with_stdio(false);  
     cin.tie(NULL);
     srand(chrono::steady_clock::now().time_since_epoch().count()); 
-    // freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout); 
     
-    int n;
-    cin >> n;
-    vector<vector<char>> g(n, vector<char>(n));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cin >> g[i][j];
-        }
+    int t = 1;
+    /* cin >> t; */
+    while (t--) {
+        solve();
     }
-
-    vector<vector<int>> dp(n, vector<int>(n,0));
-    const int MOD = 1e9 + 7;
-    dp[0][0] = (g[0][0] == '*' ? 0 : 1);
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (i == 0 && j == 0) {
-                continue;
-            }
-            if (g[i][j] != '*') {
-                dp[i][j] = ((i ? dp[i-1][j] : 0) + (j ? dp[i][j-1] : 0)) % MOD;
-            }
-        }
-    }
-    cout << dp[n-1][n-1] << endl;
 
     return 0;
 }
+
+

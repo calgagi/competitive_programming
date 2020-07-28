@@ -10,15 +10,8 @@ TASK:
 #include <bits/stdc++.h>
 
 using namespace std;
-
 #define ld long double
-#define ull unsigned long long
 #define ll long long
-#define pii pair<int, int>
-#define pll pair<ll, ll>
-#define pdd pair<ld, ld>
-#define f first
-#define s second
 
 void solve() {
 
